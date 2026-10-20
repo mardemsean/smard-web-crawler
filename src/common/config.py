@@ -13,11 +13,31 @@ load_dotenv()
 class ProxyConfig:
     url: str = os.getenv("PROXY_URL", "")
     rotation_url: str = os.getenv("PROXY_ROTATION_URL", "")
-    api_key: str = os.getenv("PROXY_API_KEY", "")
 
     @property
     def enabled(self) -> bool:
         return bool(self.url)
+
+
+@dataclass
+class SiteUnblockerConfig:
+    url: str = os.getenv("SITE_UNBLOCKER_URL", "")
+    fallback_enabled: bool = os.getenv("SITE_UNBLOCKER_FALLBACK", "true").lower() == "true"
+
+    @property
+    def enabled(self) -> bool:
+        return bool(self.url) and self.fallback_enabled
+
+
+@dataclass
+class DecodoApiConfig:
+    api_key: str = os.getenv("DECODO_API_KEY", "")
+    api_url: str = os.getenv("DECODO_API_URL", "https://data.decodo.com/v1")
+    fallback_enabled: bool = os.getenv("DECODO_API_FALLBACK", "true").lower() == "true"
+
+    @property
+    def enabled(self) -> bool:
+        return bool(self.api_key) and self.fallback_enabled
 
 
 @dataclass
@@ -54,6 +74,8 @@ class OutputConfig:
 @dataclass
 class AppConfig:
     proxy: ProxyConfig = field(default_factory=ProxyConfig)
+    site_unblocker: SiteUnblockerConfig = field(default_factory=SiteUnblockerConfig)
+    decodo_api: DecodoApiConfig = field(default_factory=DecodoApiConfig)
     browser: BrowserConfig = field(default_factory=BrowserConfig)
     stealth: StealthConfig = field(default_factory=StealthConfig)
     output: OutputConfig = field(default_factory=OutputConfig)
@@ -65,6 +87,18 @@ class AppConfig:
 
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
     log_file: str = os.getenv("LOG_FILE", "./data/scraper.log")
+
+    @property
+    def site_unblocker_url(self) -> str:
+        return self.site_unblocker.url
+
+    @property
+    def decodo_api_key(self) -> str:
+        return self.decodo_api.api_key
+
+    @property
+    def decodo_api_url(self) -> str:
+        return self.decodo_api.api_url
 
 
 config = AppConfig()

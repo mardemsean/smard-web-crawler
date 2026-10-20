@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Demo: scrape a URL using the unified scraper interface."""
+"""Demo: scrape a URL using the unified scraper with three-level fallback."""
 
 import asyncio
 import sys
@@ -18,12 +18,17 @@ async def main():
 
     print(f"Checking engine availability...")
     health = await scraper.check_engines()
-    print(f"  Crawl4AI: {'UP' if health['crawl4ai'] else 'DOWN'}")
-    print(f"  Firecrawl: {'UP' if health['firecrawl'] else 'DOWN'}")
+    print(f"  [L1] Crawl4AI:        {'UP' if health['crawl4ai'] else 'DOWN'}")
+    print(f"  [L1] Firecrawl:       {'UP' if health['firecrawl'] else 'DOWN'}")
+    print(f"  [L2] Site Unblocker:  {'UP' if health['site_unblocker'] else 'DOWN/NOT CONFIGURED'}")
+    print(f"  [L3] Web Data API:    {'UP' if health['web_data_api'] else 'DOWN/NOT CONFIGURED'}")
 
-    if not any(health.values()):
-        print("\nNo engines running. Start them with:")
-        print("  cd /home/user/web-scraper-toolkit && docker compose up -d")
+    available = [k for k, v in health.items() if v]
+    if not available:
+        print("\nNo engines available. Options:")
+        print("  - Start containers: docker compose up -d")
+        print("  - Configure SITE_UNBLOCKER_URL in .env")
+        print("  - Configure DECODO_API_KEY in .env")
         print("\nFalling back to direct Crawl4AI library mode...")
         from src.crawl4ai.client import Crawl4AIClient
         client = Crawl4AIClient()
