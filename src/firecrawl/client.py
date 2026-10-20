@@ -1,5 +1,6 @@
 """Firecrawl self-hosted client with proxy and stealth support."""
 
+import asyncio
 import time
 from typing import Optional
 

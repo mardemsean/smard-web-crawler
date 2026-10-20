@@ -1,4 +1,10 @@
-"""Unified scraper with three-level fallback: self-hosted → Site Unblocker → Web Data API."""
+"""Unified scraper with three-level fallback: self-hosted → Site Unblocker → Web Data API.
+
+Resilience patterns (rota-inspired):
+- Retry intra-engine: variant params within the same engine before escalating
+- Periodic liveness: recheck engine health on failure and on a timer
+- Pool cascade with recheck: re-verify failed engines during long batches
+"""
 
 import asyncio
 import logging
@@ -21,6 +27,26 @@ Engine = Literal["crawl4ai", "firecrawl", "site_unblocker", "web_data_api", "aut
 
 FALLBACK_ORDER = ["crawl4ai", "firecrawl", "site_unblocker", "web_data_api"]
 
+LIVENESS_INTERVAL = 300  # seconds between automatic health rechecks
+
+BATCH_RECHECK_INTERVAL = 10  # items between failed-engine rechecks in batch mode
+
+_INTRA_ENGINE_VARIANTS: dict[str, list[dict]] = {
+    "crawl4ai": [
+        {"strategy": "bm25"},
+        {"strategy": "semantic"},
+    ],
+    "firecrawl": [
+        {"wait_for": 5000},
+    ],
+    "site_unblocker": [
+        {"js_render": False},
+    ],
+    "web_data_api": [
+        {"proxy_pool": "premium"},
+    ],
+}
+
 
 class UnifiedScraper:
     """Routes scraping requests through a three-level fallback chain.
@@ -36,6 +62,8 @@ class UnifiedScraper:
         self.site_unblocker = SiteUnblockerClient()
         self.web_data_api = WebDataAPIClient()
         self._engine_health: dict[str, bool] = {}
+        self._last_health_check: float = 0
+        self._failed_engines: set[str] = set()
 
     async def check_engines(self) -> dict[str, bool]:
         c4ai, fc, su, wda = await asyncio.gather(
@@ -50,7 +78,38 @@ class UnifiedScraper:
             "site_unblocker": su,
             "web_data_api": wda,
         }
+        self._last_health_check = time.monotonic()
+        self._failed_engines = {k for k, v in self._engine_health.items() if not v}
         return self._engine_health
+
+    async def _maybe_refresh_health(self, force: bool = False) -> None:
+        """Recheck engine health if stale or forced."""
+        elapsed = time.monotonic() - self._last_health_check
+        if force or elapsed > LIVENESS_INTERVAL or not self._engine_health:
+            await self.check_engines()
+
+    async def _recheck_failed_engines(self) -> list[str]:
+        """Re-verify previously-failed engines; return any that recovered."""
+        if not self._failed_engines:
+            return []
+
+        recovered: list[str] = []
+        checks: dict[str, asyncio.Task] = {}
+        for eng in list(self._failed_engines):
+            client = getattr(self, eng)
+            checks[eng] = asyncio.ensure_future(client.health())
+
+        results = await asyncio.gather(*checks.values(), return_exceptions=True)
+        for eng, result in zip(checks.keys(), results):
+            if result is True:
+                self._engine_health[eng] = True
+                self._failed_engines.discard(eng)
+                recovered.append(eng)
+                logger.info(f"[liveness] {eng} recovered")
+
+        if recovered:
+            self._last_health_check = time.monotonic()
+        return recovered
 
     async def scrape(
         self,
@@ -62,25 +121,62 @@ class UnifiedScraper:
         js_render: bool = True,
         save: bool = True,
         fallback: bool = True,
+        intra_retry: bool = True,
     ) -> dict:
-        """Scrape a URL with automatic engine selection and fallback."""
-        if engine != "auto":
-            return await self._scrape_with(engine, url, strategy=strategy, stealth=stealth, js_render=js_render, save=save)
+        """Scrape a URL with automatic engine selection and fallback.
 
+        When intra_retry=True (default), each engine tries variant parameters
+        before the fallback chain escalates to the next engine.
+        """
+        if engine != "auto":
+            return await self._scrape_with(
+                engine, url, strategy=strategy, stealth=stealth,
+                js_render=js_render, save=save,
+            )
+
+        await self._maybe_refresh_health()
         engines = await self._fallback_order()
         last_error = None
 
         for eng in engines:
+            # Primary attempt with caller's parameters
             try:
-                result = await self._scrape_with(eng, url, strategy=strategy, stealth=stealth, js_render=js_render, save=save)
+                result = await self._scrape_with(
+                    eng, url, strategy=strategy, stealth=stealth,
+                    js_render=js_render, save=save,
+                )
                 if result.get("success") and result.get("markdown"):
                     return result
-                logger.warning(f"[{eng}] {url}: empty result, trying next engine")
+                logger.warning(f"[{eng}] {url}: empty result, trying variants")
             except Exception as e:
                 last_error = e
-                logger.warning(f"[{eng}] {url}: {e}, trying next engine")
+                logger.warning(f"[{eng}] {url}: {e}")
                 if not fallback:
                     raise
+
+            # Intra-engine retry: try variant params before escalating
+            if intra_retry and eng in _INTRA_ENGINE_VARIANTS:
+                for variant in _INTRA_ENGINE_VARIANTS[eng]:
+                    try:
+                        result = await self._scrape_with(
+                            eng, url,
+                            strategy=variant.get("strategy", strategy),
+                            stealth=stealth,
+                            js_render=variant.get("js_render", js_render),
+                            save=save,
+                            wait_for=variant.get("wait_for", 0),
+                            proxy_pool=variant.get("proxy_pool", "standard"),
+                        )
+                        if result.get("success") and result.get("markdown"):
+                            logger.info(f"[{eng}] {url}: succeeded with variant {variant}")
+                            return result
+                    except Exception as e:
+                        last_error = e
+                        logger.warning(f"[{eng}] {url} variant {variant}: {e}")
+
+            # Mark engine failed after all intra-engine attempts exhausted
+            self._failed_engines.add(eng)
+            self._engine_health[eng] = False
 
         raise RuntimeError(f"All engines failed for {url}. Last error: {last_error}")
 
@@ -93,17 +189,21 @@ class UnifiedScraper:
         stealth: bool = True,
         js_render: bool = True,
         save: bool = True,
+        wait_for: int = 0,
+        proxy_pool: str = "standard",
     ) -> dict:
         start = time.monotonic()
 
         if engine == "crawl4ai":
             result = await self.crawl4ai.scrape(url, strategy=strategy, stealth=stealth)
         elif engine == "firecrawl":
-            result = await self.firecrawl.scrape(url)
+            result = await self.firecrawl.scrape(url, wait_for=wait_for)
         elif engine == "site_unblocker":
             result = await self.site_unblocker.scrape(url, js_render=js_render, markdown=True)
         elif engine == "web_data_api":
-            result = await self.web_data_api.scrape(url, markdown=True, js_render=js_render)
+            result = await self.web_data_api.scrape(
+                url, markdown=True, js_render=js_render, proxy_pool=proxy_pool,
+            )
         else:
             raise ValueError(f"Unknown engine: {engine}")
 
@@ -124,24 +224,44 @@ class UnifiedScraper:
         engine: Engine = "auto",
         concurrency: int = 5,
         delay_between: float = 0,
+        recheck_interval: int = BATCH_RECHECK_INTERVAL,
     ) -> list[dict]:
-        """Scrape multiple URLs with concurrency control and fallback."""
+        """Scrape multiple URLs with concurrency control, fallback, and pool cascade recheck."""
         semaphore = asyncio.Semaphore(concurrency)
-        results: list[dict] = []
+        completed_count = 0
+        lock = asyncio.Lock()
 
-        async def _do(url: str):
+        async def _do(url: str, index: int) -> dict:
+            nonlocal completed_count
             async with semaphore:
-                if delay_between > 0 and results:
+                if delay_between > 0 and completed_count > 0:
                     await asyncio.sleep(delay_between)
-                return await self.scrape(url, engine=engine)
 
-        tasks = [_do(u) for u in urls]
-        gathered = await asyncio.gather(*tasks, return_exceptions=True)
+                # Pool cascade: periodically recheck failed engines
+                async with lock:
+                    if (
+                        completed_count > 0
+                        and completed_count % recheck_interval == 0
+                        and self._failed_engines
+                    ):
+                        recovered = await self._recheck_failed_engines()
+                        if recovered:
+                            logger.info(
+                                f"[batch] engines recovered at item {completed_count}: {recovered}"
+                            )
 
-        return [
-            r if isinstance(r, dict) else {"url": urls[i], "error": str(r), "success": False}
-            for i, r in enumerate(gathered)
-        ]
+                try:
+                    result = await self.scrape(url, engine=engine)
+                except Exception as e:
+                    result = {"url": url, "error": str(e), "success": False}
+
+                async with lock:
+                    completed_count += 1
+
+                return result
+
+        tasks = [_do(u, i) for i, u in enumerate(urls)]
+        return list(await asyncio.gather(*tasks))
 
     async def crawl(
         self,
