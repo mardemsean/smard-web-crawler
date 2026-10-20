@@ -9,7 +9,8 @@ Evaluated components and external tools for potential integration with the smard
 | Component | Verdict | Category | Integration Path |
 |---|---|---|---|
 | rota | **Extract patterns** | Proxy manager | Design patterns adopted (retry, liveness, cascade) |
-| CloakBrowser | **Reverse-engineer concepts** | Stealth browser | Fingerprint techniques → stealth.py |
+| CloakBrowser | **Reverse-engineer concepts** | Stealth browser | Fingerprint techniques → stealth.py (v155 Pro installed locally) |
+| Obscura | **Extract stealth patterns** | Headless browser engine | GREASE, _fpRand noise, navigator prototype chain → stealth.py |
 | AutomatiQ | **Fork for integration** | MCP reverse-engineering | CDP-to-HTTP extraction for scraper agents |
 | WebClaw | **Monitor** | Self-hosted scraper | Reference architecture, no direct use |
 | mubeng | **Skip** | Proxy rotator | Go binary, our proxy layer handles rotation |
@@ -57,7 +58,7 @@ Dual-path proxy pool manager with intelligent health tracking, rotation strategi
 
 **Free edition:** Available. User has confirmed intent to use for testing.
 
-**Installation status:** Installed and tested headless successfully on local development environment (via local Claude agent). Not present in cloud container — local-only for now.
+**Installation status:** CloakBrowser v155 Pro (Chrome/155) installed and tested headless on local Windows development environment. License key stored in DPAPI at `~\.smard\secrets\cloakbrowser.key.dpapi`. Launch via `launch-agent-browser.ps1` (loads DPAPI key automatically). Limit: 1 concurrent session. Not present in cloud container — local-only.
 
 **Reverse engineering plan:**
 The goal is not to use CloakBrowser as a dependency but to extract concepts, techniques, and architectural decisions applicable to our stealth layer:
@@ -190,6 +191,44 @@ Same issues as Proxy-Scraper-2026-GUI above. Free proxies are not viable for pro
 
 ---
 
+### Obscura (mardemsean/obscura-headless-web-scrapinr-agent)
+
+**Category:** Rust headless browser engine with stealth transport
+**License:** Apache 2.0 | **Binary:** ~70MiB | **Memory:** ~30MB per page
+
+**What it does:**
+Full headless browser engine in Rust: V8 via deno_core, own DOM/layout/paint pipeline, CDP-compatible (Puppeteer/Playwright drop-in). Stealth mode operates at three layers:
+
+1. **TLS fingerprint** (wreq/BoringSSL): Chrome 145/Windows ClientHello, cipher order, ALPN
+2. **HTTP headers**: Chrome client hints with GREASE brand shuffling algorithm, Sec-Fetch-* metadata, referrer policy
+3. **JS runtime**: 16K-line bootstrap.js with 200+ non-enumerable internal globals, prototype-chain navigator getters, seeded per-session fingerprint noise (canvas, audio, battery, geolocation)
+
+**Key stealth techniques extractable for stealth.py:**
+
+1. **GREASE sec-ch-ua algorithm** (bootstrap.js:8032-8047) — Generates browser brand lists with correct permutation order and GREASE tokens based on Chrome major version. Our stealth.py sends no client hints at all.
+
+2. **`_fpRand` seeded noise model** (bootstrap.js:705-785) — One seed per session generates deterministic noise for canvas, audio context, battery, screen, GPU renderer. Produces consistent-but-unique fingerprints. Our stealth.py has zero fingerprint surface coverage.
+
+3. **Prototype-chain navigator placement** (bootstrap.js:8148-8203) — Navigator getters on a thin prototype above `Navigator.prototype`, not as own properties. Own accessors are a bot tell detectable by `Object.getOwnPropertyDescriptor(navigator, 'userAgent')`. Our stealth.py doesn't touch navigator properties.
+
+4. **Cross-surface consistency** (profiles.rs) — UA string, `navigator.platform`, `navigator.userAgentData.platform`, `platformVersion` all derive from a single `BrowserProfile`. Our stealth.py has 5 random UAs with no cross-surface consistency.
+
+5. **Connection-reset retry** (wreq_client.rs) — Automatic retry on TCP reset, maps directly to our intra-engine retry pattern.
+
+6. **Tracker blocklist** (blocklist.rs) — 3520+ domains from PGL list with subdomain matching. Could serve as resource filter in our pipeline.
+
+**Stealth limitations (documented honestly by upstream):**
+- No Cloudflare challenges, Datadome, Akamai active challenges, CAPTCHAs
+- No passive TCP/IP stack fingerprinting (Linux SYN ≠ Windows/macOS — kernel-level, unsolvable in userspace)
+- WebGL returns null (no GPU renderer)
+- Profile rotation without matching TLS/timezone is a bot signal
+
+**Full analysis:** See `Obscura-Decipher.md` and `Obscura-SmardAgentFlow-Analyze.md` in this directory.
+
+**Verdict:** Extract stealth patterns 1-4 for stealth.py. Do not adopt as runtime dependency (Rust binary, different architecture).
+
+---
+
 ## Architecture Decisions Log
 
 ### 2024-10 — Three-level fallback adopted
@@ -206,6 +245,11 @@ Same issues as Proxy-Scraper-2026-GUI above. Free proxies are not viable for pro
 
 **Decision:** Extract stealth techniques from CloakBrowser rather than adopt it as a dependency.
 **Rationale:** Proprietary binary core creates vendor lock-in risk. The techniques (fingerprint patching, CDP evasion) can be partially replicated via Playwright CDP commands and browser args. Understanding what CloakBrowser patches reveals what anti-bot systems detect.
+
+### 2024-10 — Obscura stealth patterns extraction planned
+
+**Decision:** Extract GREASE, _fpRand noise model, prototype-chain navigator placement, and cross-surface consistency patterns from Obscura for stealth.py.
+**Rationale:** Obscura implements the most complete open-source stealth at three layers (TLS, HTTP headers, JS runtime). The Rust binary itself is not usable as a Python dependency, but the techniques documented in bootstrap.js (16K lines, fully readable) and wreq_client.rs are directly translatable. Current stealth.py has 5 random UAs with no fingerprint surface coverage — these patterns close the gap without adding a binary dependency.
 
 ### 2024-10 — AutomatiQ fork maintained
 
