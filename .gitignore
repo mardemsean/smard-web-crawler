@@ -1,0 +1,27 @@
+# Claude Code: machine-local settings (paths, endpoints) — never version
+.claude/settings.local.json
+
+# Subagent worktrees (Claude Code)
+.claude/worktrees/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment secrets — never version
+.env
+
+# Output data
+data/output/*.md
+data/*.log
+
+# Node
+node_modules/
+
+# Local inter-session memory
+/.session-memory/

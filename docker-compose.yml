@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  # --- Firecrawl Self-Hosted (API + Worker + Redis) ---
+  firecrawl-redis:
+    image: redis:7-alpine
+    container_name: firecrawl-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  firecrawl-api:
+    image: ghcr.io/mendableai/firecrawl:latest
+    container_name: firecrawl-api
+    ports:
+      - "3002:3002"
+    environment:
+      - REDIS_URL=redis://firecrawl-redis:6379
+      - NUM_WORKERS_PER_QUEUE=${FIRECRAWL_NUM_WORKERS:-4}
+      - PORT=3002
+      - HOST=0.0.0.0
+      - RATE_LIMIT_TEST_URL=${FIRECRAWL_RATE_LIMIT:-30}
+      - PROXY_URL=${PROXY_URL:-}
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+    depends_on:
+      firecrawl-redis:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2"
+
+  # --- Crawl4AI Server ---
+  crawl4ai:
+    image: unclecode/crawl4ai:latest
+    container_name: crawl4ai
+    ports:
+      - "11235:11235"
+    environment:
+      - CRAWL4AI_API_TOKEN=${CRAWL4AI_API_TOKEN:-}
+      - MAX_CONCURRENT_TASKS=${CRAWL4AI_MAX_CONCURRENT:-5}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - crawl4ai-data:/app/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2"
+
+volumes:
+  redis-data:
+  crawl4ai-data:
