@@ -10,7 +10,7 @@ package with a CLI, an HTTP API, an MCP server and a Claude Code plugin.
 |---|---|---|---|---|
 | 1 | **Obscura** (stealth build) | Rust/V8 headless browser over CDP | free | Chrome-identical TLS (JA3/JA4), ~110 MB RAM, no WebGL |
 | 2 | **Crawl4AI** 0.9.5 | Chromium server (Docker) | free | `enable_stealth`, content filters |
-| 3 | **Firecrawl** v2.11 | self-hosted stack (Docker) | free | also powers `crawl` |
+| 3 | **Firecrawl** v2.11 | self-hosted stack (Docker) | free | preferred for `crawl` (native BFS fallback over a browser engine when it is not up) |
 | 4 | **CloakBrowser** 0.6.3 | source-patched stealth Chromium | free tier, 1 session | hardest targets; needs a license |
 | 5 | Decodo Site Unblocker | managed proxy | paid | rate-limited + daily cap |
 | 6 | Decodo Web Data API | managed REST | paid | rate-limited + daily cap, `map` |
