@@ -7,7 +7,7 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.common.scraper import UnifiedScraper
+from smard_crawler.common.scraper import UnifiedScraper
 
 
 async def main():
@@ -30,7 +30,7 @@ async def main():
         print("  - Configure SITE_UNBLOCKER_URL in .env")
         print("  - Configure DECODO_API_KEY in .env")
         print("\nFalling back to direct Crawl4AI library mode...")
-        from src.crawl4ai.client import Crawl4AIClient
+        from smard_crawler.crawl4ai.client import Crawl4AIClient
         client = Crawl4AIClient()
         result = await client.scrape_direct(url)
     else:

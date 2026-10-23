@@ -1,0 +1,17 @@
+{
+  "name": "smard-labs",
+  "owner": {
+    "name": "SMardLabs Intell"
+  },
+  "metadata": {
+    "description": "SMardLabs Claude Code plugins"
+  },
+  "plugins": [
+    {
+      "name": "smard-crawler",
+      "source": "./plugins/smard-crawler",
+      "description": "Self-hosted web scraping to Markdown through a multi-engine fallback chain (Obscura, Crawl4AI, Firecrawl, CloakBrowser, Decodo), exposed as MCP tools.",
+      "version": "0.2.0"
+    }
+  ]
+}

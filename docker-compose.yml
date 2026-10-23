@@ -1,62 +1,75 @@
-version: "3.9"
+# SMard Web Crawler stack. All ports are published on host loopback only.
+#   docker compose up -d                  -> obscura + crawl4ai + api
+#   scripts/firecrawl-up.sh               -> optional Firecrawl self-hosted stack (port 3002)
+# Required in .env: OBSCURA_CDP_TOKEN, CRAWL4AI_API_TOKEN, SMARD_API_TOKEN (>= 32 chars; the installers generate them).
 
 services:
-  # --- Firecrawl Self-Hosted (API + Worker + Redis) ---
-  firecrawl-redis:
-    image: redis:7-alpine
-    container_name: firecrawl-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      retries: 5
-    restart: unless-stopped
-
-  firecrawl-api:
-    image: ghcr.io/mendableai/firecrawl:latest
-    container_name: firecrawl-api
-    ports:
-      - "3002:3002"
+  obscura:
+    build: docker/obscura
+    image: smard/obscura:0.2.5-stealth
+    container_name: smard-obscura
+    # String form so the proxy flag disappears when PROXY_URL is empty (Obscura ignores HTTP(S)_PROXY).
+    command: serve --port 9222 --host 0.0.0.0 --stealth ${PROXY_URL:+--proxy ${PROXY_URL}}
     environment:
-      - REDIS_URL=redis://firecrawl-redis:6379
-      - NUM_WORKERS_PER_QUEUE=${FIRECRAWL_NUM_WORKERS:-4}
-      - PORT=3002
-      - HOST=0.0.0.0
-      - RATE_LIMIT_TEST_URL=${FIRECRAWL_RATE_LIMIT:-30}
-      - PROXY_URL=${PROXY_URL:-}
-      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-    depends_on:
-      firecrawl-redis:
-        condition: service_healthy
+      OBSCURA_CDP_TOKEN: ${OBSCURA_CDP_TOKEN:?set OBSCURA_CDP_TOKEN (openssl rand -hex 32)}
+      OBSCURA_TIMEZONE: ${OBSCURA_TIMEZONE:-}
+      OBSCURA_GEOLOCATION: ${OBSCURA_GEOLOCATION:-}
+    ports:
+      - "127.0.0.1:9222:9222"
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 4g
-          cpus: "2"
+          memory: 2g
 
-  # --- Crawl4AI Server ---
   crawl4ai:
-    image: unclecode/crawl4ai:latest
-    container_name: crawl4ai
-    ports:
-      - "11235:11235"
+    image: unclecode/crawl4ai:0.9.5
+    container_name: smard-crawl4ai
+    shm_size: 1g
     environment:
-      - CRAWL4AI_API_TOKEN=${CRAWL4AI_API_TOKEN:-}
-      - MAX_CONCURRENT_TASKS=${CRAWL4AI_MAX_CONCURRENT:-5}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-    volumes:
-      - crawl4ai-data:/app/data
+      # Without a token the 0.9.x server binds the container loopback and the published port is dead.
+      CRAWL4AI_API_TOKEN: ${CRAWL4AI_API_TOKEN:?set CRAWL4AI_API_TOKEN (openssl rand -hex 32)}
+      # IPv4 bind: the default [::] bind fails on hosts without IPv6.
+      GUNICORN_BIND: 0.0.0.0:11235
+      # Request bodies may not carry proxy settings; the server dials out through this instead.
+      CRAWL4AI_UPSTREAM_PROXY: ${PROXY_URL:-}
+      MAX_CONCURRENT_TASKS: ${CRAWL4AI_MAX_CONCURRENT:-5}
+      CRAWL4AI_NO_CLOUD_NOTICE: "1"
+    ports:
+      - "127.0.0.1:11235:11235"
     restart: unless-stopped
     deploy:
       resources:
         limits:
           memory: 4g
-          cpus: "2"
+
+  api:
+    build: .
+    image: smard/web-crawler:0.2.0
+    container_name: smard-api
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SMARD_API_TOKEN: ${SMARD_API_TOKEN:?set SMARD_API_TOKEN (openssl rand -hex 32)}
+      OBSCURA_CDP_URL: ws://obscura:9222
+      OBSCURA_CDP_TOKEN: ${OBSCURA_CDP_TOKEN}
+      OBSCURA_BIN: ""
+      CRAWL4AI_BASE_URL: http://crawl4ai:11235
+      CRAWL4AI_API_TOKEN: ${CRAWL4AI_API_TOKEN}
+      FIRECRAWL_HOST: ${FIRECRAWL_HOST_FROM_DOCKER:-http://host.docker.internal:3002}
+      CLOAKBROWSER_ENABLED: "false"
+      OUTPUT_DIR: /data/output
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - smard-data:/data
+    ports:
+      - "127.0.0.1:8787:8787"
+    depends_on:
+      - obscura
+      - crawl4ai
+    restart: unless-stopped
 
 volumes:
-  redis-data:
-  crawl4ai-data:
+  smard-data:

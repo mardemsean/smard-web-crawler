@@ -1,11 +1,11 @@
-"""Tests for src/common/stealth.py — GREASE, _fpRand, profile consistency."""
+"""Tests for smard_crawler/common/stealth.py — GREASE, _fpRand, profile consistency."""
 
 import json
 import re
 
 import pytest
 
-from src.common.stealth import (
+from smard_crawler.common.stealth import (
     PROFILES,
     BrowserProfile,
     SessionFingerprint,

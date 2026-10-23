@@ -211,22 +211,21 @@ _NAVIGATOR_STEALTH_JS = """\
         {name: "Microsoft Edge PDF Viewer", filename: "internal-pdf-viewer"},
         {name: "WebKit built-in PDF", filename: "internal-pdf-viewer"},
     ];
-    Object.defineProperty(proto, 'plugins', {
-        get: () => {
-            const arr = pluginData.map(p => {
-                const plug = Object.create(Plugin.prototype);
-                Object.defineProperty(plug, 'name', {get: () => p.name});
-                Object.defineProperty(plug, 'filename', {get: () => p.filename});
-                return plug;
-            });
-            arr.item = (i) => arr[i];
-            arr.namedItem = (n) => arr.find(p => p.name === n);
-            arr.refresh = () => {};
-            Object.defineProperty(arr, 'length', {get: () => pluginData.length});
-            return arr;
-        },
-        configurable: true,
+    const plugins = Object.create(PluginArray.prototype);
+    pluginData.forEach((p, i) => {
+        const plug = Object.create(Plugin.prototype);
+        Object.defineProperty(plug, 'name', {get: () => p.name});
+        Object.defineProperty(plug, 'filename', {get: () => p.filename});
+        Object.defineProperty(plug, 'description', {get: () => 'Portable Document Format'});
+        Object.defineProperty(plugins, i, {value: plug, enumerable: true});
     });
+    Object.defineProperties(plugins, {
+        length: {get: () => pluginData.length},
+        item: {value: (i) => plugins[i] || null},
+        namedItem: {value: (n) => Array.prototype.find.call(plugins, p => p.name === n) || null},
+        refresh: {value: () => {}},
+    });
+    Object.defineProperty(proto, 'plugins', {get: () => plugins, configurable: true});
 
     if ('userAgentData' in navigator) {
         const brands = %(brands_json)s;

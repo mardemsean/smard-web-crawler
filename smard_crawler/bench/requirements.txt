@@ -1,0 +1,4 @@
+playwright>=1.53
+psutil>=5.9
+# Optional, only for --engines cloakbrowser (needs an activated license):
+# cloakbrowser==0.6.3

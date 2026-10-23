@@ -1,0 +1,11 @@
+{
+  "name": "smard-crawler",
+  "version": "0.2.0",
+  "description": "Scrape, batch-scrape, crawl and map websites to clean Markdown through the SMard self-hosted engine chain (Obscura -> Crawl4AI -> Firecrawl -> CloakBrowser -> Decodo), with robots.txt compliance and a cost guard on paid engines.",
+  "author": {
+    "name": "Sean Mardem"
+  },
+  "repository": "https://github.com/mardemsean/smard-web-crawler",
+  "license": "Proprietary",
+  "keywords": ["scraping", "crawler", "markdown", "mcp", "obscura", "crawl4ai", "firecrawl", "decodo"]
+}

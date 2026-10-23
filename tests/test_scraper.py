@@ -1,4 +1,4 @@
-"""Tests for src/common/scraper.py — UnifiedScraper fallback chain, batch, and resilience."""
+"""Tests for smard_crawler/common/scraper.py — UnifiedScraper fallback chain, batch, and resilience."""
 
 import asyncio
 import time
@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from src.common.scraper import (
+from smard_crawler.common.scraper import (
     BATCH_RECHECK_INTERVAL,
     FALLBACK_ORDER,
     LIVENESS_INTERVAL,
@@ -31,7 +31,9 @@ def scraper(mock_crawl4ai, mock_firecrawl, mock_site_unblocker, mock_web_data_ap
 
 class TestConstants:
     def test_fallback_order(self):
-        assert FALLBACK_ORDER == ["crawl4ai", "firecrawl", "site_unblocker", "web_data_api"]
+        assert FALLBACK_ORDER == [
+            "obscura", "crawl4ai", "firecrawl", "cloakbrowser", "site_unblocker", "web_data_api",
+        ]
 
     def test_liveness_interval(self):
         assert LIVENESS_INTERVAL == 300
@@ -143,7 +145,7 @@ class TestFallbackOrder:
             "site_unblocker": False,
             "web_data_api": False,
         }
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             order = await scraper._fallback_order()
@@ -157,7 +159,7 @@ class TestFallbackOrder:
             "site_unblocker": False,
             "web_data_api": False,
         }
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = True
             mock_config.decodo_api.enabled = False
             order = await scraper._fallback_order()
@@ -171,7 +173,7 @@ class TestFallbackOrder:
             "site_unblocker": False,
             "web_data_api": False,
         }
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = True
             order = await scraper._fallback_order()
@@ -185,7 +187,7 @@ class TestFallbackOrder:
             "site_unblocker": False,
             "web_data_api": False,
         }
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             with pytest.raises(RuntimeError, match="No scraping engine available"):
@@ -195,7 +197,7 @@ class TestFallbackOrder:
 class TestScrapeWithEngine:
     @pytest.mark.asyncio
     async def test_scrape_with_crawl4ai(self, scraper):
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.output.dir = Path("/tmp/test-output")
             mock_config.output.include_meta = False
             result = await scraper._scrape_with("crawl4ai", "https://example.com", save=False)
@@ -235,7 +237,7 @@ class TestScrapeAuto:
     async def test_scrape_auto_uses_first_healthy(self, scraper):
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             result = await scraper.scrape("https://example.com", save=False)
@@ -252,7 +254,7 @@ class TestScrapeAuto:
         scraper.crawl4ai.scrape = AsyncMock(side_effect=ConnectionError("down"))
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             result = await scraper.scrape(
@@ -269,7 +271,7 @@ class TestScrapeAuto:
         })
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             result = await scraper.scrape(
@@ -283,7 +285,7 @@ class TestScrapeAuto:
         scraper.firecrawl.scrape = AsyncMock(side_effect=ConnectionError("down"))
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             with pytest.raises(RuntimeError, match="All engines failed"):
@@ -296,7 +298,7 @@ class TestScrapeAuto:
         scraper.crawl4ai.scrape = AsyncMock(side_effect=ConnectionError("down"))
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             with pytest.raises(ConnectionError):
@@ -312,7 +314,7 @@ class TestScrapeAuto:
         scraper.crawl4ai.scrape = AsyncMock(side_effect=ConnectionError("down"))
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             await scraper.scrape(
@@ -336,7 +338,7 @@ class TestIntraEngineRetry:
         scraper.crawl4ai.scrape = AsyncMock(side_effect=flaky_scrape)
         scraper._engine_health = {"crawl4ai": True}
         scraper._last_health_check = time.monotonic()
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             mock_config.output.dir = Path("/tmp/test-output")
@@ -349,7 +351,7 @@ class TestIntraEngineRetry:
 class TestSave:
     @pytest.mark.asyncio
     async def test_save_writes_file(self, scraper, tmp_path):
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.output.dir = tmp_path
             mock_config.output.include_meta = True
             result = {
@@ -367,7 +369,7 @@ class TestSave:
 
     @pytest.mark.asyncio
     async def test_save_without_meta(self, scraper, tmp_path):
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.output.dir = tmp_path
             mock_config.output.include_meta = False
             result = {"markdown": "# Raw Content", "engine": "test", "elapsed_ms": 0}
@@ -379,7 +381,7 @@ class TestSave:
     @pytest.mark.asyncio
     async def test_save_creates_output_dir(self, scraper, tmp_path):
         output_dir = tmp_path / "new" / "nested"
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.output.dir = output_dir
             mock_config.output.include_meta = False
             result = {"markdown": "content", "engine": "test", "elapsed_ms": 0}
@@ -388,7 +390,7 @@ class TestSave:
 
     @pytest.mark.asyncio
     async def test_save_filename_sanitization(self, scraper, tmp_path):
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.output.dir = tmp_path
             mock_config.output.include_meta = False
             result = {"markdown": "ok", "engine": "test", "elapsed_ms": 0}
@@ -404,7 +406,7 @@ class TestScrapeBatch:
         scraper._engine_health = {"crawl4ai": True, "firecrawl": True}
         scraper._last_health_check = time.monotonic()
         urls = ["https://example.com/1", "https://example.com/2", "https://example.com/3"]
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             mock_config.output.dir = Path("/tmp/test-output")
@@ -429,7 +431,7 @@ class TestScrapeBatch:
         scraper._last_health_check = time.monotonic()
 
         urls = ["https://example.com/ok", "https://example.com/fail"]
-        with patch("src.common.scraper.config") as mock_config:
+        with patch("smard_crawler.common.scraper.config") as mock_config:
             mock_config.site_unblocker.enabled = False
             mock_config.decodo_api.enabled = False
             results = await scraper.scrape_batch(urls, concurrency=1)

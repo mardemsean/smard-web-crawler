@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "smard-crawler": {
+      "command": "${SMARD_CRAWLER_MCP:-smard-crawler-mcp}",
+      "args": []
+    }
+  }
+}

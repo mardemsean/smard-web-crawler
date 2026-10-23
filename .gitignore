@@ -21,6 +21,7 @@ build/
 # Output data
 data/output/*.md
 data/*.log
+data/bench/
 
 # Node
 node_modules/
