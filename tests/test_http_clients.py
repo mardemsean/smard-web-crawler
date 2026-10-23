@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, patch
 import httpx
 import pytest
 
-from smard_crawler.crawl4ai.client import Crawl4AIClient, _markdown_text
+from smard_crawler.crawl4ai.client import Crawl4AIClient, _internal_links, _markdown_text
 from smard_crawler.decodo.site_unblocker import SiteUnblockerClient
 from smard_crawler.decodo.web_data_api import WebDataAPIClient
 from smard_crawler.firecrawl.client import FirecrawlClient
@@ -95,14 +95,24 @@ async def test_crawl4ai_scrape_parses_response_and_sends_token():
         seen["body"] = json.loads(req.content)
         return httpx.Response(200, json={"success": True, "results": [{
             "url": "https://example.com", "success": True, "status_code": 200,
-            "markdown": {"raw_markdown": "# Raw", "fit_markdown": "# Fit"}, "metadata": {"title": "Ex"}}]})
+            "markdown": {"raw_markdown": "# Raw", "fit_markdown": "# Fit"}, "metadata": {"title": "Ex"},
+            "links": {"internal": [{"href": "https://example.com/a", "text": "A"}], "external": [{"href": "https://other.test/x"}]}}]})
 
     c = Crawl4AIClient(base_url="http://c4ai.test", api_token="tok")
     with mock_http("smard_crawler.crawl4ai.client", handler):
         r = await c.scrape("https://example.com")
     assert r["markdown"] == "# Fit" and r["status"] == 200 and r["metadata"]["title"] == "Ex"
+    assert r["links"] == ["https://example.com/a"]  # internal only, for the native crawler
     assert seen["auth"] == "Bearer tok"
     assert seen["body"]["crawler_config"]["type"] == "CrawlerRunConfig"
+
+
+def test_crawl4ai_internal_links_extraction():
+    assert _internal_links({"links": {"internal": [
+        {"href": "https://s.test/a"}, {"href": "https://s.test/a"}, {"href": "/rel"}, {"href": ""}, {"text": "no href"},
+    ]}}) == ["https://s.test/a"]
+    assert _internal_links({}) == []
+    assert _internal_links({"links": {"internal": []}}) == []
 
 
 @pytest.mark.asyncio

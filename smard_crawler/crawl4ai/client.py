@@ -34,6 +34,17 @@ def _markdown_text(md: Any) -> str:
     return md or ""
 
 
+def _internal_links(result: dict) -> list[str]:
+    """Absolute hrefs of same-site links, from Crawl4AI's links.internal[*].href."""
+    internal = (result.get("links") or {}).get("internal") or []
+    seen: dict[str, None] = {}
+    for link in internal:
+        href = (link.get("href") or "").strip() if isinstance(link, dict) else ""
+        if href.startswith(("http://", "https://")):
+            seen.setdefault(href, None)
+    return list(seen)
+
+
 class Crawl4AIClient:
     """Client for the Crawl4AI server (Docker) or direct library usage."""
 
@@ -118,6 +129,7 @@ class Crawl4AIClient:
             "url": result.get("url", payload["urls"][0]),
             "status": result.get("status_code"),
             "markdown": _markdown_text(result.get("markdown")),
+            "links": _internal_links(result),
             "metadata": result.get("metadata") or {},
             "success": True,
         }

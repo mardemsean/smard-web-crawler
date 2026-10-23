@@ -37,7 +37,7 @@ SELF_HOSTED_ENGINES = {"obscura", "crawl4ai", "firecrawl", "cloakbrowser"}
 PAID_ENGINES = {"site_unblocker", "web_data_api"}
 
 # Engines whose scrape result carries a "links" list, usable by the native crawler.
-_LINK_YIELDING_ENGINES = ("obscura", "cloakbrowser")
+_LINK_YIELDING_ENGINES = ("obscura", "cloakbrowser", "crawl4ai")
 
 LIVENESS_INTERVAL = 300  # seconds between automatic health rechecks
 

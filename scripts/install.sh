@@ -55,11 +55,14 @@ VPY="$PREFIX/venv/bin/python"
 EXTRAS="server,mcp,bench"
 [ "$WITH_CLOAK" = 1 ] && EXTRAS="$EXTRAS,cloak"
 [ "$DEV" = 1 ] && EXTRAS="$EXTRAS,dev"
+# Pinned versions for a reproducible install; skipped if the file is absent.
+CONSTRAINTS=""
+[ -f "$REPO_DIR/constraints.txt" ] && CONSTRAINTS="-c $REPO_DIR/constraints.txt"
 say "Installing smard-web-crawler[$EXTRAS]"
 if [ "$DEV" = 1 ]; then
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 "$VPY" -m pip install --quiet -e "$REPO_DIR[$EXTRAS]"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 "$VPY" -m pip install --quiet $CONSTRAINTS -e "$REPO_DIR[$EXTRAS]"
 else
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 "$VPY" -m pip install --quiet "$REPO_DIR[$EXTRAS]"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 "$VPY" -m pip install --quiet $CONSTRAINTS "$REPO_DIR[$EXTRAS]"
 fi
 if [ "$WITH_CHROMIUM" = 1 ]; then
   say "Installing Playwright Chromium (baseline engine for the benchmark)"

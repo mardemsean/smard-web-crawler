@@ -53,8 +53,11 @@ if ($WithCloak) { $Extras += ',cloak' }
 if ($Dev) { $Extras += ',dev' }
 Say "Installing smard-web-crawler[$Extras]"
 $env:PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = '1'
-if ($Dev) { & $VPy -m pip install --quiet -e "$RepoDir[$Extras]" }
-else { & $VPy -m pip install --quiet "$RepoDir[$Extras]" }
+# Pinned versions for a reproducible install; skipped if the file is absent.
+$Constraints = @()
+if (Test-Path (Join-Path $RepoDir 'constraints.txt')) { $Constraints = @('-c', (Join-Path $RepoDir 'constraints.txt')) }
+if ($Dev) { & $VPy -m pip install --quiet @Constraints -e "$RepoDir[$Extras]" }
+else { & $VPy -m pip install --quiet @Constraints "$RepoDir[$Extras]" }
 if ($LASTEXITCODE -ne 0) { throw 'pip install failed' }
 Remove-Item Env:PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD
 if ($WithChromium) { & $VPy -m playwright install chromium }

@@ -25,10 +25,10 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-      - name: Install package
+      - name: Install package (pinned)
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
-        run: pip install ".[all,dev]"
+        run: pip install -c constraints.txt ".[all,dev]"
       - name: Unit tests
         run: pytest -q --cov=smard_crawler --cov-report=term
 
