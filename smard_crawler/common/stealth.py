@@ -10,6 +10,7 @@ See RESEARCH/PONTE-Obscura-Stealth.md for the full bridge document.
 
 import hashlib
 import json
+import platform
 import random
 from dataclasses import dataclass
 from typing import Optional
@@ -36,6 +37,15 @@ class BrowserProfile:
     mobile: bool
     viewport_width: int
     viewport_height: int
+
+    @property
+    def navigator_platform(self) -> str:
+        """`navigator.platform` value a real Chrome reports for this profile."""
+        if self.platform == "Windows":
+            return "Win32"
+        if self.platform == "macOS":
+            return "MacIntel"
+        return "Linux aarch64" if self.architecture == "arm" else "Linux x86_64"
 
 
 PROFILES: list[BrowserProfile] = [
@@ -92,10 +102,15 @@ class SessionFingerprint:
     sessions, defeating cross-session correlation.
     """
 
-    def __init__(self, seed: Optional[int] = None):
+    def __init__(self, seed: Optional[int] = None, profile_name: Optional[str] = None):
         self._seed = seed if seed is not None else random.randint(0, 2**32 - 1)
         self._rng = random.Random(self._seed)
-        self.profile: BrowserProfile = self._rng.choice(PROFILES)
+        chosen = self._rng.choice(PROFILES)
+        if profile_name is not None:
+            chosen = next((p for p in PROFILES if p.name == profile_name), None)
+            if chosen is None:
+                raise ValueError(f"unknown profile {profile_name!r}; choose from {[p.name for p in PROFILES]}")
+        self.profile: BrowserProfile = chosen
 
     @property
     def seed(self) -> int:
@@ -185,6 +200,13 @@ def stealth_headers(
     return headers
 
 
+def host_profile_name(system: Optional[str] = None) -> str:
+    """Profile matching the host OS. Web Workers keep the host's navigator.platform,
+    so a profile from another OS leaves a main-thread/worker mismatch."""
+    system = system or platform.system()
+    return {"Windows": "chrome-win", "Darwin": "chrome-mac"}.get(system, "chrome-linux")
+
+
 def random_user_agent() -> str:
     """Return a random user agent string (backward-compatible convenience)."""
     return random.choice(PROFILES).ua
@@ -199,6 +221,7 @@ _NAVIGATOR_STEALTH_JS = """\
         deviceMemory: { get: () => %(device_memory)d },
         maxTouchPoints: { get: () => 0 },
         languages: { get: () => Object.freeze(["en-US", "en"]) },
+        platform: { get: () => "%(navigator_platform)s" },
     };
     for (const [prop, desc] of Object.entries(overrides)) {
         Object.defineProperty(proto, prop, { ...desc, configurable: true });
@@ -273,6 +296,7 @@ def navigator_stealth_script(fp: SessionFingerprint) -> str:
         "brands_json": json.dumps(brands_dicts),
         "mobile": "true" if profile.mobile else "false",
         "platform": profile.platform,
+        "navigator_platform": profile.navigator_platform,
         "platform_version": profile.platform_version,
         "architecture": profile.architecture,
         "bitness": profile.bitness,

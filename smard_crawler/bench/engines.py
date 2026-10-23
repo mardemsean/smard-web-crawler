@@ -59,9 +59,12 @@ async def chromium(pw: Playwright, headless: bool = True, use_stealth_py: bool =
         info={"version": browser.version},
     )
     if use_stealth_py:
-        from smard_crawler.common.stealth import SessionFingerprint, navigator_stealth_script
+        from smard_crawler.common.stealth import SessionFingerprint, host_profile_name, navigator_stealth_script
 
-        fp = SessionFingerprint(seed=int(os.getenv("BENCH_STEALTH_SEED", "42")))
+        fp = SessionFingerprint(
+            seed=int(os.getenv("BENCH_STEALTH_SEED", "42")),
+            profile_name=os.getenv("BENCH_STEALTH_PROFILE") or host_profile_name(),
+        )
         handle.context_kwargs = {
             "user_agent": fp.profile.ua,
             "viewport": {"width": fp.profile.viewport_width, "height": fp.profile.viewport_height},

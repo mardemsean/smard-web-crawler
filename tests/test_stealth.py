@@ -12,6 +12,7 @@ from smard_crawler.common.stealth import (
     _grease_brand,
     _grease_brands,
     grease_sec_ch_ua,
+    host_profile_name,
     navigator_stealth_script,
     random_user_agent,
     stealth_headers,
@@ -302,3 +303,27 @@ class TestBackwardCompatibility:
         h = stealth_headers()
         assert isinstance(h, dict)
         assert "User-Agent" in h
+
+
+class TestPlatformCoherence:
+    def test_navigator_platform_per_profile(self):
+        by_name = {p.name: p for p in PROFILES}
+        assert by_name["chrome-win"].navigator_platform == "Win32"
+        assert by_name["chrome-mac"].navigator_platform == "MacIntel"
+        assert by_name["chrome-linux"].navigator_platform.startswith("Linux")
+
+    def test_script_overrides_navigator_platform(self):
+        for p in PROFILES:
+            script = navigator_stealth_script(SessionFingerprint(seed=1, profile_name=p.name))
+            assert f'platform: {{ get: () => "{p.navigator_platform}" }}' in script
+
+    def test_profile_name_selects_profile(self):
+        assert SessionFingerprint(seed=7, profile_name="chrome-mac").profile.name == "chrome-mac"
+        with pytest.raises(ValueError, match="unknown profile"):
+            SessionFingerprint(profile_name="safari-ios")
+
+    def test_host_profile_name(self):
+        assert host_profile_name("Windows") == "chrome-win"
+        assert host_profile_name("Darwin") == "chrome-mac"
+        assert host_profile_name("Linux") == "chrome-linux"
+        assert host_profile_name() in {p.name for p in PROFILES}

@@ -21,14 +21,16 @@ and failed engines are rechecked during long batches. Every scrape checks
 `robots.txt` first (RFC 9309). The API and MCP refuse private and internal
 addresses (SSRF guard).
 
-Measured on the same host and tests (5 rounds each, `smard-crawler bench`):
+Measured on SMardSERVER (Windows 11, direct egress, 5 rounds each, `smard-crawler bench --online`):
 
-| Engine | Functional | Stealth probes | RSS | sannysoft failures |
-|---|---|---|---|---|
-| Chromium headless | 100% | 70% | 413 MB | 12 |
-| Chromium + `stealth.py` | 100% | 80% | 418 MB | — |
-| Obscura `--stealth` | 100% | 90% | 107 MB | 3 |
+| Engine | Functional | Stealth probes | Static load | RSS | sannysoft failures | JA4 |
+|---|---|---|---|---|---|---|
+| CloakBrowser 155 | 100% | 100% | 45 ms | 465 MB | 0 | most common Chrome-on-Windows |
+| Obscura `--stealth` | 100% | 90% | 27 ms | 80 MB | 3 | genuine Chrome (uTLS variant) |
+| Chromium 156 headless | 100% | 70% | 30 ms | 259 MB | 12 | Chrome |
 
+Obscura leads the chain for speed and density. Escalate to CloakBrowser
+(`engine="cloakbrowser"`) for protected targets.
 The rationale is in [docs/decisions/0001-obscura-engine.md](docs/decisions/0001-obscura-engine.md).
 
 ## Install (any machine, private repo)
