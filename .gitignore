@@ -8,6 +8,8 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.coverage
+htmlcov/
 .venv/
 *.egg-info/
 dist/
@@ -19,6 +21,7 @@ build/
 # Output data
 data/output/*.md
 data/*.log
+data/bench/
 
 # Node
 node_modules/

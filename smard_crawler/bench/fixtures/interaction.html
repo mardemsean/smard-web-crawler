@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Interaction fixture</title></head>
+<body>
+<button id="reveal" onclick="document.getElementById('hidden').style.display='block'">Reveal</button>
+<div id="hidden" style="display:none"><p id="revealed">SMARD-CLICK-MARKER</p></div>
+<form id="f" onsubmit="event.preventDefault(); document.getElementById('echo').textContent = 'hello ' + document.getElementById('name').value;">
+  <input id="name" type="text"><button id="submit" type="submit">Go</button>
+</form>
+<p id="echo"></p>
+<p id="state"></p>
+<button id="go" onclick="history.pushState({}, '', '/spa/page2'); document.getElementById('view').textContent = 'SMARD-SPA-MARKER';">Navigate</button>
+<div id="view"></div>
+<script>
+  const seen = document.cookie.includes('smard_seen=1');
+  document.getElementById('state').textContent = seen ? 'returning' : 'first';
+  if (!seen) document.cookie = 'smard_seen=1; path=/';
+</script>
+</body></html>

@@ -188,15 +188,6 @@ class WebDataAPIClient:
         }
 
     async def health(self) -> bool:
-        if not self.enabled:
-            return False
-        try:
-            async with httpx.AsyncClient(timeout=10) as client:
-                resp = await client.post(
-                    f"{self.base_url}/scrape",
-                    headers=self._headers(),
-                    json={"url": "https://ip.decodo.com"},
-                )
-                return resp.status_code in (200, 401, 402, 403)
-        except Exception:
-            return False
+        # Every /scrape call is billed, so availability is judged from configuration only;
+        # auth or quota errors surface on the first real request and trigger fallback.
+        return self.enabled

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Dynamic fixture</title></head>
+<body>
+<div id="sync"></div><div id="late"></div><div id="fetched"></div>
+<script>
+  document.getElementById('sync').innerHTML = '<p id="rendered">SMARD-JS-MARKER</p>';
+  setTimeout(() => { document.getElementById('late').innerHTML = '<p id="delayed">SMARD-DELAYED-MARKER</p>'; }, 1500);
+  fetch('/data.json').then(r => r.json()).then(d => {
+    document.getElementById('fetched').innerHTML = '<p id="fetch-ok">' + d.marker + '</p>';
+  });
+</script>
+</body></html>

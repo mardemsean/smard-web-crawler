@@ -1,4 +1,6 @@
-"""Unified scraper with three-level fallback: self-hosted → Site Unblocker → Web Data API.
+"""Unified scraper with configurable fallback: self-hosted engines → Site Unblocker → Web Data API.
+
+Default order (ENGINE_ORDER): obscura, crawl4ai, firecrawl, cloakbrowser, site_unblocker, web_data_api.
 
 Resilience patterns (rota-inspired):
 - Retry intra-engine: variant params within the same engine before escalating
@@ -15,7 +17,11 @@ from typing import Literal, Optional
 
 import aiofiles
 
-from .config import config
+from .budget import BudgetExceeded, PaidGuard
+from .config import DEFAULT_ENGINE_ORDER, config
+from .crawl import bfs_crawl
+from .robots import RobotsChecker, RobotsDisallowed
+from ..browsers.client import CloakBrowserClient, ObscuraClient
 from ..crawl4ai.client import Crawl4AIClient
 from ..firecrawl.client import FirecrawlClient
 from ..decodo.site_unblocker import SiteUnblockerClient
@@ -23,15 +29,27 @@ from ..decodo.web_data_api import WebDataAPIClient
 
 logger = logging.getLogger(__name__)
 
-Engine = Literal["crawl4ai", "firecrawl", "site_unblocker", "web_data_api", "auto"]
+Engine = Literal["obscura", "crawl4ai", "firecrawl", "cloakbrowser", "site_unblocker", "web_data_api", "auto"]
 
-FALLBACK_ORDER = ["crawl4ai", "firecrawl", "site_unblocker", "web_data_api"]
+FALLBACK_ORDER = DEFAULT_ENGINE_ORDER.split(",")
+
+SELF_HOSTED_ENGINES = {"obscura", "crawl4ai", "firecrawl", "cloakbrowser"}
+PAID_ENGINES = {"site_unblocker", "web_data_api"}
+
+# Engines whose scrape result carries a "links" list, usable by the native crawler.
+_LINK_YIELDING_ENGINES = ("obscura", "cloakbrowser", "crawl4ai")
 
 LIVENESS_INTERVAL = 300  # seconds between automatic health rechecks
 
 BATCH_RECHECK_INTERVAL = 10  # items between failed-engine rechecks in batch mode
 
 _INTRA_ENGINE_VARIANTS: dict[str, list[dict]] = {
+    "obscura": [
+        {"wait_for": 3000},
+    ],
+    "cloakbrowser": [
+        {"wait_for": 3000},
+    ],
     "crawl4ai": [
         {"strategy": "bm25"},
         {"strategy": "semantic"},
@@ -49,35 +67,40 @@ _INTRA_ENGINE_VARIANTS: dict[str, list[dict]] = {
 
 
 class UnifiedScraper:
-    """Routes scraping requests through a three-level fallback chain.
+    """Routes scraping requests through the configured fallback chain.
 
-    Level 1: Self-hosted engines (Crawl4AI / Firecrawl) + residential proxy
+    Level 1: Self-hosted engines (Obscura / Crawl4AI / Firecrawl / CloakBrowser) + residential proxy
     Level 2: Decodo Site Unblocker (proxy-like, managed anti-bot)
     Level 3: Decodo Web Data API (REST, fully managed)
     """
 
     def __init__(self):
+        self.obscura = ObscuraClient()
         self.crawl4ai = Crawl4AIClient()
         self.firecrawl = FirecrawlClient()
+        self.cloakbrowser = CloakBrowserClient()
         self.site_unblocker = SiteUnblockerClient()
         self.web_data_api = WebDataAPIClient()
+        self.engine_order: list[str] = [e for e in config.engine_order if e in FALLBACK_ORDER]
+        self.robots: Optional[RobotsChecker] = (
+            RobotsChecker(config.robots_user_agent) if config.respect_robots else None
+        )
+        self.paid_guard: Optional[PaidGuard] = PaidGuard(
+            config.budget.max_rps, config.budget.daily_limit, config.budget.state_file,
+        )
         self._engine_health: dict[str, bool] = {}
         self._last_health_check: float = 0
         self._failed_engines: set[str] = set()
 
+    def _engines_present(self) -> list[str]:
+        return [e for e in FALLBACK_ORDER if hasattr(self, e)]
+
     async def check_engines(self) -> dict[str, bool]:
-        c4ai, fc, su, wda = await asyncio.gather(
-            self.crawl4ai.health(),
-            self.firecrawl.health(),
-            self.site_unblocker.health(),
-            self.web_data_api.health(),
+        names = self._engines_present()
+        results = await asyncio.gather(
+            *(getattr(self, e).health() for e in names), return_exceptions=True,
         )
-        self._engine_health = {
-            "crawl4ai": c4ai,
-            "firecrawl": fc,
-            "site_unblocker": su,
-            "web_data_api": wda,
-        }
+        self._engine_health = {e: r is True for e, r in zip(names, results)}
         self._last_health_check = time.monotonic()
         self._failed_engines = {k for k, v in self._engine_health.items() if not v}
         return self._engine_health
@@ -127,7 +150,12 @@ class UnifiedScraper:
 
         When intra_retry=True (default), each engine tries variant parameters
         before the fallback chain escalates to the next engine.
+        Raises RobotsDisallowed when robots.txt forbids the URL (RESPECT_ROBOTS=true).
         """
+        robots = getattr(self, "robots", None)
+        if robots is not None and not await robots.allowed(url):
+            raise RobotsDisallowed(f"robots.txt disallows {url}")
+
         if engine != "auto":
             return await self._scrape_with(
                 engine, url, strategy=strategy, stealth=stealth,
@@ -148,6 +176,10 @@ class UnifiedScraper:
                 if result.get("success") and result.get("markdown"):
                     return result
                 logger.warning(f"[{eng}] {url}: empty result, trying variants")
+            except BudgetExceeded as e:
+                last_error = e
+                logger.warning(f"[{eng}] {url}: {e}; skipping paid engine")
+                continue
             except Exception as e:
                 last_error = e
                 logger.warning(f"[{eng}] {url}: {e}")
@@ -170,6 +202,9 @@ class UnifiedScraper:
                         if result.get("success") and result.get("markdown"):
                             logger.info(f"[{eng}] {url}: succeeded with variant {variant}")
                             return result
+                    except BudgetExceeded as e:
+                        last_error = e
+                        break
                     except Exception as e:
                         last_error = e
                         logger.warning(f"[{eng}] {url} variant {variant}: {e}")
@@ -192,9 +227,25 @@ class UnifiedScraper:
         wait_for: int = 0,
         proxy_pool: str = "standard",
     ) -> dict:
+        guard = getattr(self, "paid_guard", None)
+        if engine in PAID_ENGINES:
+            client = getattr(self, engine, None)
+            if client is not None and not getattr(client, "enabled", True):
+                # Refuse before touching the paid budget: an explicit --engine on an unconfigured
+                # Decodo level must not count as a paid call.
+                raise RuntimeError(f"[{engine}] not configured (set SITE_UNBLOCKER_URL / DECODO_API_KEY)")
+            if guard is not None:
+                # Check the cap and rate-limit now; charge only after the engine responds,
+                # so a connection that never reaches Decodo is not billed against the budget.
+                await guard.before()
+
         start = time.monotonic()
 
-        if engine == "crawl4ai":
+        if engine == "obscura":
+            result = await self.obscura.scrape(url, wait_for=wait_for)
+        elif engine == "cloakbrowser":
+            result = await self.cloakbrowser.scrape(url, wait_for=wait_for)
+        elif engine == "crawl4ai":
             result = await self.crawl4ai.scrape(url, strategy=strategy, stealth=stealth)
         elif engine == "firecrawl":
             result = await self.firecrawl.scrape(url, wait_for=wait_for)
@@ -206,6 +257,9 @@ class UnifiedScraper:
             )
         else:
             raise ValueError(f"Unknown engine: {engine}")
+
+        if engine in PAID_ENGINES and guard is not None:
+            await guard.charge()  # the engine responded; count it now (an earlier failure would have raised)
 
         elapsed = time.monotonic() - start
         result["engine"] = engine
@@ -225,6 +279,7 @@ class UnifiedScraper:
         concurrency: int = 5,
         delay_between: float = 0,
         recheck_interval: int = BATCH_RECHECK_INTERVAL,
+        save: bool = True,
     ) -> list[dict]:
         """Scrape multiple URLs with concurrency control, fallback, and pool cascade recheck."""
         semaphore = asyncio.Semaphore(concurrency)
@@ -251,7 +306,7 @@ class UnifiedScraper:
                             )
 
                 try:
-                    result = await self.scrape(url, engine=engine)
+                    result = await self.scrape(url, engine=engine, save=save)
                 except Exception as e:
                     result = {"url": url, "error": str(e), "success": False}
 
@@ -270,17 +325,47 @@ class UnifiedScraper:
         limit: int = 50,
         max_depth: int = 2,
     ) -> dict:
-        """Multi-page crawl with fallback: Firecrawl self-hosted → Web Data API /crawl."""
+        """Multi-page crawl: Firecrawl self-hosted → native browser crawl → Web Data API /crawl.
+
+        Firecrawl stays preferred. The native fallback reuses the browser engines
+        already in the chain, so crawl still works without Firecrawl's service stack.
+        """
+        if not self._engine_health:
+            await self.check_engines()
         try:
-            if self._engine_health.get("firecrawl", True):
+            if self._engine_health.get("firecrawl"):
                 return await self.firecrawl.crawl(url, limit=limit, max_depth=max_depth)
         except Exception as e:
-            logger.warning(f"[firecrawl] crawl failed: {e}")
+            logger.warning(f"[firecrawl] crawl failed, falling back to native crawl: {e}")
+
+        browser_engine = self._first_browser_engine()
+        if browser_engine is not None:
+            robots = getattr(self, "robots", None)
+            if robots is not None and not await robots.allowed(url):
+                raise RobotsDisallowed(f"robots.txt disallows {url}")
+
+            async def _fetch(page_url: str) -> dict:
+                return await self._scrape_with(browser_engine, page_url, save=False)
+
+            logger.info(f"[crawl] native crawl via {browser_engine}")
+            result = await bfs_crawl(_fetch, url, limit=limit, max_depth=max_depth)
+            result["engine"] = browser_engine
+            return result
 
         if self.web_data_api.enabled:
             return await self.web_data_api.crawl(url, limit=limit, max_depth=max_depth)
 
-        raise RuntimeError("No crawl engine available")
+        raise RuntimeError(
+            "No crawl engine available. Start a browser engine (obscura/crawl4ai), "
+            "run Firecrawl (scripts/firecrawl-up.sh), or set DECODO_API_KEY"
+        )
+
+    def _first_browser_engine(self) -> Optional[str]:
+        """First healthy browser engine in the configured order that yields links for crawling."""
+        for eng in getattr(self, "engine_order", FALLBACK_ORDER):
+            if eng in _LINK_YIELDING_ENGINES and self._engine_health.get(eng):
+                return eng
+        return None
 
     async def map_site(self, url: str) -> dict:
         """Map site URLs via Web Data API /map."""
@@ -293,8 +378,8 @@ class UnifiedScraper:
             await self.check_engines()
 
         order = []
-        for eng in FALLBACK_ORDER:
-            if eng in ("crawl4ai", "firecrawl"):
+        for eng in getattr(self, "engine_order", FALLBACK_ORDER):
+            if eng in SELF_HOSTED_ENGINES:
                 if self._engine_health.get(eng):
                     order.append(eng)
             elif eng == "site_unblocker":
@@ -307,9 +392,16 @@ class UnifiedScraper:
         if not order:
             raise RuntimeError(
                 "No scraping engine available. "
-                "Start containers (docker compose up -d) or configure SITE_UNBLOCKER_URL / DECODO_API_KEY"
+                "Start containers (docker compose up -d), enable CLOAKBROWSER_ENABLED, "
+                "or configure SITE_UNBLOCKER_URL / DECODO_API_KEY"
             )
         return order
+
+    async def close(self) -> None:
+        for eng in ("obscura", "cloakbrowser"):
+            client = getattr(self, eng, None)
+            if client is not None and hasattr(client, "close"):
+                await client.close()
 
     async def _save(self, url: str, result: dict) -> str:
         output_dir = config.output.dir

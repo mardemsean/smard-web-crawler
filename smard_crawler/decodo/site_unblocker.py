@@ -68,15 +68,5 @@ class SiteUnblockerClient:
         }
 
     async def health(self) -> bool:
-        if not self.enabled:
-            return False
-        try:
-            async with httpx.AsyncClient(
-                proxy=self.proxy_url,
-                verify=False,
-                timeout=10,
-            ) as client:
-                resp = await client.get("https://ip.decodo.com/")
-                return resp.status_code == 200
-        except Exception:
-            return False
+        # Requests through the unblocker are billed, so availability is judged from configuration only.
+        return self.enabled

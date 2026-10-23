@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install package (pinned)
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: pip install -c constraints.txt ".[all,dev]"
+      - name: Unit tests
+        run: pytest -q --cov=smard_crawler --cov-report=term
+
+  integration:
+    runs-on: ubuntu-24.04
+    env:
+      OBSCURA_VERSION: v0.2.5
+      OBSCURA_SHA256: d9175cf7573d0243fc303a6f1a3b68affc757af0b5549cacb018e9670988316c
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package and Chromium
+        run: |
+          pip install ".[all,dev]"
+          python -m playwright install --with-deps chromium
+      - name: Download Obscura stealth release
+        run: |
+          curl -fsSLo obscura.tgz "https://github.com/h4ckf0r0day/obscura/releases/download/${OBSCURA_VERSION}/obscura-x86_64-linux-stealth.tar.gz"
+          echo "${OBSCURA_SHA256}  obscura.tgz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/obscura" && tar xzf obscura.tgz -C "$RUNNER_TEMP/obscura"
+          echo "OBSCURA_BIN=$RUNNER_TEMP/obscura/obscura" >> "$GITHUB_ENV"
+      - name: Integration tests (real Obscura + Chromium)
+        run: pytest -q tests/test_obscura_integration.py tests/test_stealth_browser.py
+      - name: Engine battery smoke run
+        run: smard-crawler bench --engines chromium,obscura-stealth --rounds 1 --out bench-out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: engine-bench
+          path: bench-out/
+
+  compose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose file
+        env:
+          OBSCURA_CDP_TOKEN: ci
+          CRAWL4AI_API_TOKEN: ci
+          SMARD_API_TOKEN: ci
+        run: docker compose config --quiet
+      - name: Shell syntax
+        run: bash -n scripts/install.sh scripts/firecrawl-up.sh
+
+  stack:
+    runs-on: ubuntu-24.04
+    needs: compose
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate tokens
+        run: |
+          for k in OBSCURA_CDP_TOKEN CRAWL4AI_API_TOKEN SMARD_API_TOKEN; do
+            echo "$k=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          done
+      - name: Build images
+        run: docker compose build
+      - name: Start obscura + crawl4ai + api
+        run: docker compose up -d
+      - name: Wait for engines
+        run: |
+          for i in $(seq 1 60); do
+            out=$(curl -sf -H "Authorization: Bearer $SMARD_API_TOKEN" http://127.0.0.1:8787/health || true)
+            if echo "$out" | python3 -c 'import sys,json; e=json.load(sys.stdin)["engines"]; sys.exit(not (e["obscura"] and e["crawl4ai"]))' 2>/dev/null; then
+              echo "$out"; exit 0
+            fi
+            sleep 5
+          done
+          echo "engines not healthy: $out"; exit 1
+      - name: API rejects missing token
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8787/health)" = 401
+      - name: Scrape through each engine
+        run: |
+          for engine in obscura crawl4ai; do
+            curl -sf -H "Authorization: Bearer $SMARD_API_TOKEN" -H 'Content-Type: application/json' \
+              -d "{\"url\":\"https://example.com\",\"engine\":\"$engine\"}" http://127.0.0.1:8787/scrape > "out-$engine.json"
+            python3 - "$engine" <<'PY'
+          import json, sys
+          engine = sys.argv[1]
+          r = json.load(open(f"out-{engine}.json"))
+          assert r["success"] and r["engine"] == engine, r
+          assert "documentation" in r["markdown"], r["markdown"][:300]
+          print(engine, "ok", len(r["markdown"]), "chars")
+          PY
+          done
+      - name: Container logs
+        if: failure()
+        run: docker compose logs --tail 200

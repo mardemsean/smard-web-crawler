@@ -7,7 +7,7 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.common.scraper import UnifiedScraper
+from smard_crawler.common.scraper import UnifiedScraper
 
 
 async def main():
@@ -16,12 +16,10 @@ async def main():
 
     scraper = UnifiedScraper()
 
-    print(f"Checking engine availability...")
+    print("Checking engine availability...")
     health = await scraper.check_engines()
-    print(f"  [L1] Crawl4AI:        {'UP' if health['crawl4ai'] else 'DOWN'}")
-    print(f"  [L1] Firecrawl:       {'UP' if health['firecrawl'] else 'DOWN'}")
-    print(f"  [L2] Site Unblocker:  {'UP' if health['site_unblocker'] else 'DOWN/NOT CONFIGURED'}")
-    print(f"  [L3] Web Data API:    {'UP' if health['web_data_api'] else 'DOWN/NOT CONFIGURED'}")
+    for name in scraper.engine_order:
+        print(f"  {name:<15} {'UP' if health.get(name) else 'DOWN/NOT CONFIGURED'}")
 
     available = [k for k, v in health.items() if v]
     if not available:
@@ -30,12 +28,13 @@ async def main():
         print("  - Configure SITE_UNBLOCKER_URL in .env")
         print("  - Configure DECODO_API_KEY in .env")
         print("\nFalling back to direct Crawl4AI library mode...")
-        from src.crawl4ai.client import Crawl4AIClient
+        from smard_crawler.crawl4ai.client import Crawl4AIClient
         client = Crawl4AIClient()
         result = await client.scrape_direct(url)
     else:
         print(f"\nScraping {url} (engine={engine})...")
         result = await scraper.scrape(url, engine=engine)
+    await scraper.close()
 
     print(f"\n--- Result ---")
     print(f"URL: {result.get('url')}")
