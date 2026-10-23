@@ -1,0 +1,4388 @@
+{
+  "generated_at": "20261023T120906Z",
+  "runs": [
+    {
+      "engine": "cloakbrowser",
+      "spec": "cloakbrowser",
+      "info": {
+        "version": "155.0.8059.39"
+      },
+      "summary": {
+        "rounds": 5,
+        "rounds_failed": 0,
+        "functional": {
+          "static_text": 1.0,
+          "links": 1.0,
+          "js_render": 1.0,
+          "delayed_render": 1.0,
+          "js_fetch": 1.0,
+          "click": 1.0,
+          "form_fill": 1.0,
+          "cookie_persist": 1.0,
+          "spa_navigation": 1.0,
+          "screenshot": 1.0
+        },
+        "probes": {
+          "webdriver_false": 1.0,
+          "webdriver_not_own_prop": 1.0,
+          "ua_not_headless": 1.0,
+          "plugins_present": 1.0,
+          "plugins_is_pluginarray": 1.0,
+          "languages_present": 1.0,
+          "window_chrome": 1.0,
+          "uad_present": 1.0,
+          "uad_matches_ua": 1.0,
+          "platform_matches_ua": 1.0,
+          "getters_native": 1.0,
+          "tostring_native": 1.0,
+          "outer_window_nonzero": 1.0,
+          "hw_concurrency_plausible": 1.0,
+          "webgl_real_gpu": 1.0,
+          "canvas_stable": 1.0,
+          "cdp_runtime_hidden": 1.0,
+          "notification_consistent": 1.0,
+          "iframe_consistent": 1.0,
+          "worker_consistent": 1.0
+        },
+        "functional_score": 1.0,
+        "stealth_score": 1.0,
+        "timing": {
+          "functional.static_text": {
+            "p50": 44.6,
+            "p95": 90.98,
+            "n": 5
+          },
+          "functional.links": {
+            "p50": 27.9,
+            "p95": 42.08,
+            "n": 5
+          },
+          "functional.js_render": {
+            "p50": 41.7,
+            "p95": 44.06,
+            "n": 5
+          },
+          "functional.delayed_render": {
+            "p50": 1879.1,
+            "p95": 1891.52,
+            "n": 5
+          },
+          "functional.js_fetch": {
+            "p50": 44.6,
+            "p95": 45.82,
+            "n": 5
+          },
+          "functional.click": {
+            "p50": 104.3,
+            "p95": 116.34,
+            "n": 5
+          },
+          "functional.form_fill": {
+            "p50": 76.5,
+            "p95": 78.08,
+            "n": 5
+          },
+          "functional.cookie_persist": {
+            "p50": 41.1,
+            "p95": 47.52,
+            "n": 5
+          },
+          "functional.spa_navigation": {
+            "p50": 72.6,
+            "p95": 78.78,
+            "n": 5
+          },
+          "functional.screenshot": {
+            "p50": 72.9,
+            "p95": 94.14,
+            "n": 5
+          },
+          "cold_start": {
+            "p50": 770.3,
+            "p95": 1654.9,
+            "n": 5
+          },
+          "probe_eval": {
+            "p50": 78.2,
+            "p95": 89.4,
+            "n": 5
+          },
+          "concurrency_total": {
+            "p50": 293.2,
+            "p95": 315.02,
+            "n": 5
+          }
+        }
+      },
+      "rounds": [
+        {
+          "timing": {
+            "cold_start": 1792.2,
+            "probe_eval": 89.9,
+            "concurrency_total": 316.0
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 101.0
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 26.4
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 41.7
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1893.6
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 44.6
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 118.1
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 77.2
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 46.4
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 72.6
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 29636,
+              "ms": 98.8
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 32,
+            "device_memory": 32,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/155|Chromium/155|Not(A:Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "3440x1440x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (NVIDIA) | ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas_hash": -927626234,
+            "cdp_runtime_detected": false,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 32
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": true,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 316.0,
+            "pages_per_s": 25.32
+          },
+          "rss_mb": 489.0,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e67-15af97b628dfc9a2298c8fab"
+            },
+            "tls": {
+              "ja3_hash": "81c502ed84afccae0b1830c8a76cdf09",
+              "ja4": "t13d1517h2_8daaf6152771_cb7bf5808d99",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 0,
+              "warn": 0,
+              "passed": 31
+            }
+          },
+          "round": 1
+        },
+        {
+          "timing": {
+            "cold_start": 1105.7,
+            "probe_eval": 77.9,
+            "concurrency_total": 286.2
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 42.1
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 43.6
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 43.9
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1873.5
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 38.8
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 109.3
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 74.5
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 39.5
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 79.0
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 26085,
+              "ms": 72.3
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 20,
+            "device_memory": 16,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/155|Chromium/155|Not(A:Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "2560x1440x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (NVIDIA) | ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas_hash": 1787353474,
+            "cdp_runtime_detected": false,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 20
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": true,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 286.2,
+            "pages_per_s": 27.95
+          },
+          "rss_mb": 479.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e72-1767795401e7eae51700a325"
+            },
+            "tls": {
+              "ja3_hash": "4a8ac87e842727f5e80d9820bc1aa8b8",
+              "ja4": "t13d1517h2_8daaf6152771_cb7bf5808d99",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 0,
+              "warn": 0,
+              "passed": 31
+            }
+          },
+          "round": 2
+        },
+        {
+          "timing": {
+            "cold_start": 762.5,
+            "probe_eval": 87.4,
+            "concurrency_total": 311.1
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 44.6
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 25.7
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 40.3
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1878.2
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 46.0
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 100.9
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 76.5
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 47.8
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 68.7
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 26085,
+              "ms": 75.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 12,
+            "device_memory": 32,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/155|Chromium/155|Not(A:Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "2560x1440x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Intel) | ANGLE (Intel, Intel(R) UHD Graphics (0x0000A7A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas_hash": 1433500746,
+            "cdp_runtime_detected": false,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 12
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": true,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 311.1,
+            "pages_per_s": 25.72
+          },
+          "rss_mb": 477.9,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e7d-0d285518041b15e24ce6c96c"
+            },
+            "tls": {
+              "ja3_hash": "86e8f3bcb01ce76c874be6e08e614ec2",
+              "ja4": "t13d1517h2_8daaf6152771_cb7bf5808d99",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 0,
+              "warn": 0,
+              "passed": 31
+            }
+          },
+          "round": 3
+        },
+        {
+          "timing": {
+            "cold_start": 764.7,
+            "probe_eval": 78.2,
+            "concurrency_total": 293.2
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 44.6
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 27.9
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 41.6
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1879.1
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 45.1
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 101.0
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 74.3
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 41.1
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 77.9
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 26085,
+              "ms": 72.9
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 24,
+            "device_memory": 32,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/155|Chromium/155|Not(A:Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "2560x1440x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (NVIDIA) | ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas_hash": -1311302560,
+            "cdp_runtime_detected": false,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 24
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": true,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 293.2,
+            "pages_per_s": 27.29
+          },
+          "rss_mb": 478.1,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e87-5af6bebf731385331b3938e7"
+            },
+            "tls": {
+              "ja3_hash": "e434f6c99b812e2ba89aec31147f69d4",
+              "ja4": "t13d1517h2_8daaf6152771_cb7bf5808d99",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 0,
+              "warn": 0,
+              "passed": 31
+            }
+          },
+          "round": 4
+        },
+        {
+          "timing": {
+            "cold_start": 770.3,
+            "probe_eval": 76.3,
+            "concurrency_total": 280.6
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 50.9
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 36.0
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 44.1
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1883.2
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 44.6
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 104.3
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 78.3
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 39.2
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 63.9
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 21300,
+              "ms": 62.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 24,
+            "device_memory": 16,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/155|Chromium/155|Not(A:Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1920x1200x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Intel) | ANGLE (Intel, Intel(R) UHD Graphics 770 (0x00004680) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+            "canvas_hash": -616795705,
+            "cdp_runtime_detected": false,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 24
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": true,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 280.6,
+            "pages_per_s": 28.51
+          },
+          "rss_mb": 464.8,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e91-32aac6804484fee925d738c8"
+            },
+            "tls": {
+              "ja3_hash": "9d74dca266b84ea9e9e16a24e3cf5c58",
+              "ja4": "t13d1517h2_8daaf6152771_cb7bf5808d99",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 0,
+              "warn": 0,
+              "passed": 31
+            }
+          },
+          "round": 5
+        }
+      ],
+      "host": {
+        "node": "SMardSERVER-8700G",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "python": "3.14.7",
+        "cpus": 16
+      }
+    },
+    {
+      "engine": "obscura+stealth",
+      "spec": "obscura-stealth",
+      "info": {
+        "version": "145.0.0.0",
+        "cdp_url": "ws://127.0.0.1:56465"
+      },
+      "summary": {
+        "rounds": 5,
+        "rounds_failed": 0,
+        "functional": {
+          "static_text": 1.0,
+          "links": 1.0,
+          "js_render": 1.0,
+          "delayed_render": 1.0,
+          "js_fetch": 1.0,
+          "click": 1.0,
+          "form_fill": 1.0,
+          "cookie_persist": 1.0,
+          "spa_navigation": 1.0,
+          "screenshot": 1.0
+        },
+        "probes": {
+          "webdriver_false": 1.0,
+          "webdriver_not_own_prop": 1.0,
+          "ua_not_headless": 1.0,
+          "plugins_present": 1.0,
+          "plugins_is_pluginarray": 1.0,
+          "languages_present": 1.0,
+          "window_chrome": 1.0,
+          "uad_present": 1.0,
+          "uad_matches_ua": 1.0,
+          "platform_matches_ua": 1.0,
+          "getters_native": 1.0,
+          "tostring_native": 1.0,
+          "outer_window_nonzero": 1.0,
+          "hw_concurrency_plausible": 1.0,
+          "webgl_real_gpu": 0.0,
+          "canvas_stable": 1.0,
+          "cdp_runtime_hidden": 0.0,
+          "notification_consistent": 1.0,
+          "iframe_consistent": 1.0,
+          "worker_consistent": 1.0
+        },
+        "functional_score": 1.0,
+        "stealth_score": 0.9,
+        "timing": {
+          "functional.static_text": {
+            "p50": 27.0,
+            "p95": 33.68,
+            "n": 5
+          },
+          "functional.links": {
+            "p50": 23.7,
+            "p95": 40.54,
+            "n": 5
+          },
+          "functional.js_render": {
+            "p50": 37.5,
+            "p95": 39.22,
+            "n": 5
+          },
+          "functional.delayed_render": {
+            "p50": 1877.5,
+            "p95": 1900.36,
+            "n": 5
+          },
+          "functional.js_fetch": {
+            "p50": 54.8,
+            "p95": 67.88,
+            "n": 5
+          },
+          "functional.click": {
+            "p50": 96.6,
+            "p95": 101.08,
+            "n": 5
+          },
+          "functional.form_fill": {
+            "p50": 113.8,
+            "p95": 126.14,
+            "n": 5
+          },
+          "functional.cookie_persist": {
+            "p50": 33.8,
+            "p95": 66.06,
+            "n": 5
+          },
+          "functional.spa_navigation": {
+            "p50": 108.1,
+            "p95": 114.38,
+            "n": 5
+          },
+          "functional.screenshot": {
+            "p50": 35.3,
+            "p95": 35.48,
+            "n": 5
+          },
+          "cold_start": {
+            "p50": 520.4,
+            "p95": 530.64,
+            "n": 5
+          },
+          "probe_eval": {
+            "p50": 49.7,
+            "p95": 72.58,
+            "n": 5
+          },
+          "concurrency_total": {
+            "p50": 204.0,
+            "p95": 221.46,
+            "n": 5
+          }
+        }
+      },
+      "rounds": [
+        {
+          "timing": {
+            "cold_start": 532.2,
+            "probe_eval": 40.6,
+            "concurrency_total": 222.7
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 34.9
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 40.6
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 39.4
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1903.2
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.1
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 101.3
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 111.9
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 32.5
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 94.3
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.4
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 6,
+            "device_memory": 8,
+            "window_chrome": true,
+            "uad_brands": "Not:A-Brand/99|Google Chrome/145|Chromium/145",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 1347289598,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 6
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 222.7,
+            "pages_per_s": 35.93
+          },
+          "rss_mb": 80.0,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4e9b-28235eac29dd74783c90d830"
+            },
+            "tls": {
+              "ja3_hash": "21347b30460204a9f28012bbb2293f8d",
+              "ja4": "t13d1516h2_8daaf6152771_d8a2da3f94cd",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 1
+        },
+        {
+          "timing": {
+            "cold_start": 515.6,
+            "probe_eval": 72.5,
+            "concurrency_total": 203.6
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 28.8
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 23.7
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 38.5
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1877.5
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 54.8
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 95.9
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 114.7
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 33.8
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 108.1
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 16,
+            "device_memory": 4,
+            "window_chrome": true,
+            "uad_brands": "Not:A-Brand/99|Google Chrome/145|Chromium/145",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": -2005394441,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 203.6,
+            "pages_per_s": 39.29
+          },
+          "rss_mb": 80.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ea5-7d1bfd3778aecb103e844868"
+            },
+            "tls": {
+              "ja3_hash": "31f76daed5c461dd859a97a0bb658a84",
+              "ja4": "t13d1516h2_8daaf6152771_d8a2da3f94cd",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 2
+        },
+        {
+          "timing": {
+            "cold_start": 520.4,
+            "probe_eval": 40.5,
+            "concurrency_total": 202.9
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 26.5
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 22.4
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.1
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1889.0
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 56.6
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 96.6
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 110.7
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 33.0
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 111.5
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 34.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 8,
+            "device_memory": 4,
+            "window_chrome": true,
+            "uad_brands": "Not:A-Brand/99|Google Chrome/145|Chromium/145",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": -1997643786,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 8
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 202.9,
+            "pages_per_s": 39.43
+          },
+          "rss_mb": 80.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4eae-3bb5c17b115962bd7e4a8266"
+            },
+            "tls": {
+              "ja3_hash": "f1850e5523c8c852fc6d74a49b4c8781",
+              "ja4": "t13d1516h2_8daaf6152771_d8a2da3f94cd",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 3
+        },
+        {
+          "timing": {
+            "cold_start": 524.4,
+            "probe_eval": 49.7,
+            "concurrency_total": 204.0
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 27.0
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 21.9
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.4
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1876.1
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 70.7
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 96.4
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 129.0
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 68.2
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 97.7
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.0
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 6,
+            "device_memory": 4,
+            "window_chrome": true,
+            "uad_brands": "Not:A-Brand/99|Google Chrome/145|Chromium/145",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 1028630568,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 6
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 204.0,
+            "pages_per_s": 39.21
+          },
+          "rss_mb": 80.6,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4eb8-5696d90171191b3b33585477"
+            },
+            "tls": {
+              "ja3_hash": "48359f068563a44b0b3effa5f6b5bee5",
+              "ja4": "t13d1516h2_8daaf6152771_d8a2da3f94cd",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 4
+        },
+        {
+          "timing": {
+            "cold_start": 517.7,
+            "probe_eval": 72.6,
+            "concurrency_total": 216.5
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 26.0
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 40.3
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.5
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1874.9
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 36.6
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 100.2
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 113.8
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 57.5
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 115.1
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.3
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 6,
+            "device_memory": 8,
+            "window_chrome": true,
+            "uad_brands": "Not:A-Brand/99|Google Chrome/145|Chromium/145",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 1179483420,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 6
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 216.5,
+            "pages_per_s": 36.95
+          },
+          "rss_mb": 80.2,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ec1-0684371b2230ba106b5db90a"
+            },
+            "tls": {
+              "ja3_hash": "2cf3827f60fbbe03efa96026d07c403c",
+              "ja4": "t13d1516h2_8daaf6152771_d8a2da3f94cd",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 5
+        }
+      ],
+      "host": {
+        "node": "SMardSERVER-8700G",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "python": "3.14.7",
+        "cpus": 16
+      }
+    },
+    {
+      "engine": "obscura",
+      "spec": "obscura",
+      "info": {
+        "version": "145.0.0.0",
+        "cdp_url": "ws://127.0.0.1:61940"
+      },
+      "summary": {
+        "rounds": 5,
+        "rounds_failed": 0,
+        "functional": {
+          "static_text": 1.0,
+          "links": 1.0,
+          "js_render": 1.0,
+          "delayed_render": 1.0,
+          "js_fetch": 1.0,
+          "click": 1.0,
+          "form_fill": 1.0,
+          "cookie_persist": 1.0,
+          "spa_navigation": 1.0,
+          "screenshot": 1.0
+        },
+        "probes": {
+          "webdriver_false": 1.0,
+          "webdriver_not_own_prop": 1.0,
+          "ua_not_headless": 1.0,
+          "plugins_present": 1.0,
+          "plugins_is_pluginarray": 1.0,
+          "languages_present": 1.0,
+          "window_chrome": 1.0,
+          "uad_present": 1.0,
+          "uad_matches_ua": 1.0,
+          "platform_matches_ua": 1.0,
+          "getters_native": 1.0,
+          "tostring_native": 1.0,
+          "outer_window_nonzero": 1.0,
+          "hw_concurrency_plausible": 1.0,
+          "webgl_real_gpu": 0.0,
+          "canvas_stable": 1.0,
+          "cdp_runtime_hidden": 0.0,
+          "notification_consistent": 1.0,
+          "iframe_consistent": 1.0,
+          "worker_consistent": 1.0
+        },
+        "functional_score": 1.0,
+        "stealth_score": 0.9,
+        "timing": {
+          "functional.static_text": {
+            "p50": 27.2,
+            "p95": 32.18,
+            "n": 5
+          },
+          "functional.links": {
+            "p50": 32.9,
+            "p95": 60.68,
+            "n": 5
+          },
+          "functional.js_render": {
+            "p50": 55.3,
+            "p95": 59.5,
+            "n": 5
+          },
+          "functional.delayed_render": {
+            "p50": 1882.9,
+            "p95": 1890.44,
+            "n": 5
+          },
+          "functional.js_fetch": {
+            "p50": 37.7,
+            "p95": 54.0,
+            "n": 5
+          },
+          "functional.click": {
+            "p50": 98.7,
+            "p95": 126.64,
+            "n": 5
+          },
+          "functional.form_fill": {
+            "p50": 115.0,
+            "p95": 126.38,
+            "n": 5
+          },
+          "functional.cookie_persist": {
+            "p50": 33.0,
+            "p95": 51.74,
+            "n": 5
+          },
+          "functional.spa_navigation": {
+            "p50": 94.5,
+            "p95": 111.88,
+            "n": 5
+          },
+          "functional.screenshot": {
+            "p50": 35.6,
+            "p95": 35.88,
+            "n": 5
+          },
+          "cold_start": {
+            "p50": 524.5,
+            "p95": 527.3,
+            "n": 5
+          },
+          "probe_eval": {
+            "p50": 41.0,
+            "p95": 67.3,
+            "n": 5
+          },
+          "concurrency_total": {
+            "p50": 204.1,
+            "p95": 210.7,
+            "n": 5
+          }
+        }
+      },
+      "rounds": [
+        {
+          "timing": {
+            "cold_start": 528.0,
+            "probe_eval": 39.1,
+            "concurrency_total": 206.7
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 33.2
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 64.0
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 55.9
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1887.0
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 36.9
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 133.3
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 113.2
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 54.7
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 101.8
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.6
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 12,
+            "device_memory": 2,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/143|Chromium/143|Not A(Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": -1950744,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 12
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 206.7,
+            "pages_per_s": 38.7
+          },
+          "rss_mb": 78.1,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip,deflate,br",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ecb-5900d21779e1786e27e0440b"
+            },
+            "tls": {
+              "ja3_hash": "b6ede60bd5fb819a6ad7257bce3387c2",
+              "ja4": "t13d1011h1_61a7ad8aa9b6_3fcd1a44f3e3",
+              "http2_akamai": null,
+              "http_version": "HTTP/1.1",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 1
+        },
+        {
+          "timing": {
+            "cold_start": 524.5,
+            "probe_eval": 40.4,
+            "concurrency_total": 203.3
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 26.8
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 32.9
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 60.4
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1891.3
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 50.8
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 87.5
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 128.4
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 32.1
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 94.0
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.8
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 16,
+            "device_memory": 1,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/143|Chromium/143|Not A(Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 245275478,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 203.3,
+            "pages_per_s": 39.34
+          },
+          "rss_mb": 78.8,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip,deflate,br",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ed5-02bbc34b71a741710090b709"
+            },
+            "tls": {
+              "ja3_hash": "e4a2587a97e39b04cf5973fe57e1e439",
+              "ja4": "t13d1011h1_61a7ad8aa9b6_3fcd1a44f3e3",
+              "http2_akamai": null,
+              "http_version": "HTTP/1.1",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 2
+        },
+        {
+          "timing": {
+            "cold_start": 524.5,
+            "probe_eval": 41.0,
+            "concurrency_total": 202.0
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 26.6
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 47.4
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 55.3
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1880.7
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.5
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 100.0
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 115.0
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 32.3
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 94.5
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 34.9
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 12,
+            "device_memory": 1,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/143|Chromium/143|Not A(Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 1819836760,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 12
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 202.0,
+            "pages_per_s": 39.61
+          },
+          "rss_mb": 78.0,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip,deflate,br",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4edf-2bf78b091461023d6c21f5dd"
+            },
+            "tls": {
+              "ja3_hash": "9f857f5314ae17fb9032764c1d3edcda",
+              "ja4": "t13d1011h1_61a7ad8aa9b6_3fcd1a44f3e3",
+              "http2_akamai": null,
+              "http_version": "HTTP/1.1",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 3
+        },
+        {
+          "timing": {
+            "cold_start": 515.4,
+            "probe_eval": 70.2,
+            "concurrency_total": 204.1
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 27.2
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 22.5
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 38.4
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1882.9
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.7
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 98.7
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 118.3
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 39.9
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 114.4
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.1
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 2,
+            "device_memory": 0.25,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/143|Chromium/143|Not A(Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": -304774982,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 2
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 204.1,
+            "pages_per_s": 39.19
+          },
+          "rss_mb": 78.7,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip,deflate,br",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ee8-42e4fa4006d57580412af2be"
+            },
+            "tls": {
+              "ja3_hash": "e975da09f352a97ee6516f4c3b5cd875",
+              "ja4": "t13d1011h1_61a7ad8aa9b6_3fcd1a44f3e3",
+              "http2_akamai": null,
+              "http_version": "HTTP/1.1",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 4
+        },
+        {
+          "timing": {
+            "cold_start": 522.8,
+            "probe_eval": 55.7,
+            "concurrency_total": 211.7
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 165,
+              "ms": 28.1
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 31.0
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 44.4
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1853.9
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 54.8
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 96.8
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 113.0
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 33.0
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 94.2
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 20719,
+              "ms": 35.9
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 2,
+            "hw_concurrency": 2,
+            "device_memory": 4,
+            "window_chrome": true,
+            "uad_brands": "Google Chrome/143|Chromium/143|Not A(Brand/24",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": null,
+            "canvas_hash": 950626574,
+            "cdp_runtime_detected": true,
+            "notification_permission": "default",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 2
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": true,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": false,
+            "notification_consistent": true,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 211.7,
+            "pages_per_s": 37.78
+          },
+          "rss_mb": 78.2,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip,deflate,br",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Host": "httpbin.org",
+              "Sec-Ch-Ua": "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4ef2-5c15ed3714c482882c7c69e2"
+            },
+            "tls": {
+              "ja3_hash": "04ba145200c5e44bc3c5d27d7245ae67",
+              "ja4": "t13d1011h1_61a7ad8aa9b6_3fcd1a44f3e3",
+              "http2_akamai": null,
+              "http_version": "HTTP/1.1",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 3,
+              "warn": 1,
+              "passed": 27
+            }
+          },
+          "round": 5
+        }
+      ],
+      "host": {
+        "node": "SMardSERVER-8700G",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "python": "3.14.7",
+        "cpus": 16
+      }
+    },
+    {
+      "engine": "chromium",
+      "spec": "chromium",
+      "info": {
+        "version": "156.0.8078.4"
+      },
+      "summary": {
+        "rounds": 5,
+        "rounds_failed": 0,
+        "functional": {
+          "static_text": 1.0,
+          "links": 1.0,
+          "js_render": 1.0,
+          "delayed_render": 1.0,
+          "js_fetch": 1.0,
+          "click": 1.0,
+          "form_fill": 1.0,
+          "cookie_persist": 1.0,
+          "spa_navigation": 1.0,
+          "screenshot": 1.0
+        },
+        "probes": {
+          "webdriver_false": 0.0,
+          "webdriver_not_own_prop": 1.0,
+          "ua_not_headless": 0.0,
+          "plugins_present": 0.0,
+          "plugins_is_pluginarray": 1.0,
+          "languages_present": 1.0,
+          "window_chrome": 0.0,
+          "uad_present": 1.0,
+          "uad_matches_ua": 1.0,
+          "platform_matches_ua": 1.0,
+          "getters_native": 1.0,
+          "tostring_native": 1.0,
+          "outer_window_nonzero": 1.0,
+          "hw_concurrency_plausible": 1.0,
+          "webgl_real_gpu": 0.0,
+          "canvas_stable": 1.0,
+          "cdp_runtime_hidden": 1.0,
+          "notification_consistent": 0.0,
+          "iframe_consistent": 1.0,
+          "worker_consistent": 1.0
+        },
+        "functional_score": 1.0,
+        "stealth_score": 0.7,
+        "timing": {
+          "functional.static_text": {
+            "p50": 29.6,
+            "p95": 93.2,
+            "n": 5
+          },
+          "functional.links": {
+            "p50": 19.6,
+            "p95": 21.28,
+            "n": 5
+          },
+          "functional.js_render": {
+            "p50": 33.2,
+            "p95": 48.2,
+            "n": 5
+          },
+          "functional.delayed_render": {
+            "p50": 1872.5,
+            "p95": 1875.64,
+            "n": 5
+          },
+          "functional.js_fetch": {
+            "p50": 31.0,
+            "p95": 33.12,
+            "n": 5
+          },
+          "functional.click": {
+            "p50": 61.3,
+            "p95": 95.88,
+            "n": 5
+          },
+          "functional.form_fill": {
+            "p50": 73.1,
+            "p95": 87.24,
+            "n": 5
+          },
+          "functional.cookie_persist": {
+            "p50": 25.6,
+            "p95": 27.54,
+            "n": 5
+          },
+          "functional.spa_navigation": {
+            "p50": 60.0,
+            "p95": 62.1,
+            "n": 5
+          },
+          "functional.screenshot": {
+            "p50": 30.2,
+            "p95": 32.22,
+            "n": 5
+          },
+          "cold_start": {
+            "p50": 68.2,
+            "p95": 81.9,
+            "n": 5
+          },
+          "probe_eval": {
+            "p50": 47.7,
+            "p95": 158.64,
+            "n": 5
+          },
+          "concurrency_total": {
+            "p50": 177.7,
+            "p95": 209.46,
+            "n": 5
+          }
+        }
+      },
+      "rounds": [
+        {
+          "timing": {
+            "cold_start": 77.5,
+            "probe_eval": 183.7,
+            "concurrency_total": 177.7
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 108.8
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 21.6
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 51.5
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1862.8
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 29.9
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 103.4
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 90.7
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 27.9
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 57.3
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 15212,
+              "ms": 31.1
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": true,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "platform": "Win32",
+            "languages": "pt-BR",
+            "plugins": 0,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 16,
+            "device_memory": 32,
+            "window_chrome": false,
+            "uad_brands": "Not:A-Brand/8|Chromium/156|HeadlessChrome/156",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "iframe_webdriver": true,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": false,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": false,
+            "plugins_present": false,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 177.7,
+            "pages_per_s": 45.02
+          },
+          "rss_mb": 257.9,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4efe-530de0d2075fcc032bc21897"
+            },
+            "tls": {
+              "ja3_hash": "bba0a0246f0612c0f59342599a3a262c",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 12,
+              "warn": 1,
+              "passed": 18
+            }
+          },
+          "round": 1
+        },
+        {
+          "timing": {
+            "cold_start": 83.0,
+            "probe_eval": 47.7,
+            "concurrency_total": 180.5
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 29.6
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 20.0
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 33.2
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1873.8
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 33.6
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 56.9
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 72.9
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 26.1
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 60.0
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 15212,
+              "ms": 29.8
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": true,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "platform": "Win32",
+            "languages": "pt-BR",
+            "plugins": 0,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 16,
+            "device_memory": 32,
+            "window_chrome": false,
+            "uad_brands": "Not:A-Brand/8|Chromium/156|HeadlessChrome/156",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "iframe_webdriver": true,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": false,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": false,
+            "plugins_present": false,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 180.5,
+            "pages_per_s": 44.32
+          },
+          "rss_mb": 255.9,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f07-47aeeade1ea622fe57748043"
+            },
+            "tls": {
+              "ja3_hash": "c7a894ab4c9bbf06968c2955e44b2d2f",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 12,
+              "warn": 1,
+              "passed": 18
+            }
+          },
+          "round": 2
+        },
+        {
+          "timing": {
+            "cold_start": 68.2,
+            "probe_eval": 58.4,
+            "concurrency_total": 216.7
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 30.8
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 19.5
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 35.0
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1866.6
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 31.2
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 65.8
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 72.1
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 24.8
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 62.3
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 15212,
+              "ms": 32.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": true,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "platform": "Win32",
+            "languages": "pt-BR",
+            "plugins": 0,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 16,
+            "device_memory": 32,
+            "window_chrome": false,
+            "uad_brands": "Not:A-Brand/8|Chromium/156|HeadlessChrome/156",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "iframe_webdriver": true,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": false,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": false,
+            "plugins_present": false,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 216.7,
+            "pages_per_s": 36.91
+          },
+          "rss_mb": 258.5,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f10-4ced000666666ebe5c7e7454"
+            },
+            "tls": {
+              "ja3_hash": "7015dadecfc689b30172b80b8afbe0b5",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 12,
+              "warn": 1,
+              "passed": 18
+            }
+          },
+          "round": 3
+        },
+        {
+          "timing": {
+            "cold_start": 66.5,
+            "probe_eval": 41.2,
+            "concurrency_total": 165.3
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 27.9
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 18.1
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 32.1
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1872.5
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 31.0
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 61.3
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 73.1
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 25.6
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 59.0
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 15212,
+              "ms": 30.2
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": true,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "platform": "Win32",
+            "languages": "pt-BR",
+            "plugins": 0,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 16,
+            "device_memory": 32,
+            "window_chrome": false,
+            "uad_brands": "Not:A-Brand/8|Chromium/156|HeadlessChrome/156",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "iframe_webdriver": true,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": false,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": false,
+            "plugins_present": false,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 165.3,
+            "pages_per_s": 48.4
+          },
+          "rss_mb": 256.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f18-1a21fa7a487747cc4d98bb22"
+            },
+            "tls": {
+              "ja3_hash": "08b8c72f9fb748b6f1bb5fbebcd66804",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 12,
+              "warn": 1,
+              "passed": 18
+            }
+          },
+          "round": 4
+        },
+        {
+          "timing": {
+            "cold_start": 66.6,
+            "probe_eval": 39.4,
+            "concurrency_total": 161.1
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 29.1
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 19.6
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 32.1
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1876.1
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 28.9
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 46.9
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 73.4
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 25.5
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 61.3
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 15212,
+              "ms": 29.9
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": true,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "platform": "Win32",
+            "languages": "pt-BR",
+            "plugins": 0,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 16,
+            "device_memory": 32,
+            "window_chrome": false,
+            "uad_brands": "Not:A-Brand/8|Chromium/156|HeadlessChrome/156",
+            "uad_platform": "Windows",
+            "getters_native": true,
+            "tostring_native": true,
+            "screen": "1280x720x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "iframe_webdriver": true,
+            "worker_ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": false,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": false,
+            "plugins_present": false,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": true,
+            "getters_native": true,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 161.1,
+            "pages_per_s": 49.67
+          },
+          "rss_mb": 258.8,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Windows\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f20-2c9259126c584c3377a23299"
+            },
+            "tls": {
+              "ja3_hash": "1b9fbd089ea2a9f91453e300892449ed",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 12,
+              "warn": 1,
+              "passed": 18
+            }
+          },
+          "round": 5
+        }
+      ],
+      "host": {
+        "node": "SMardSERVER-8700G",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "python": "3.14.7",
+        "cpus": 16
+      }
+    },
+    {
+      "engine": "chromium+stealth.py",
+      "spec": "chromium-stealthpy",
+      "info": {
+        "version": "156.0.8078.4",
+        "profile": "chrome-linux"
+      },
+      "summary": {
+        "rounds": 5,
+        "rounds_failed": 0,
+        "functional": {
+          "static_text": 1.0,
+          "links": 1.0,
+          "js_render": 1.0,
+          "delayed_render": 1.0,
+          "js_fetch": 1.0,
+          "click": 1.0,
+          "form_fill": 1.0,
+          "cookie_persist": 1.0,
+          "spa_navigation": 1.0,
+          "screenshot": 1.0
+        },
+        "probes": {
+          "webdriver_false": 1.0,
+          "webdriver_not_own_prop": 1.0,
+          "ua_not_headless": 1.0,
+          "plugins_present": 1.0,
+          "plugins_is_pluginarray": 1.0,
+          "languages_present": 1.0,
+          "window_chrome": 0.0,
+          "uad_present": 1.0,
+          "uad_matches_ua": 1.0,
+          "platform_matches_ua": 0.0,
+          "getters_native": 0.0,
+          "tostring_native": 1.0,
+          "outer_window_nonzero": 1.0,
+          "hw_concurrency_plausible": 1.0,
+          "webgl_real_gpu": 0.0,
+          "canvas_stable": 1.0,
+          "cdp_runtime_hidden": 1.0,
+          "notification_consistent": 0.0,
+          "iframe_consistent": 1.0,
+          "worker_consistent": 1.0
+        },
+        "functional_score": 1.0,
+        "stealth_score": 0.75,
+        "timing": {
+          "functional.static_text": {
+            "p50": 27.5,
+            "p95": 32.06,
+            "n": 5
+          },
+          "functional.links": {
+            "p50": 19.4,
+            "p95": 21.32,
+            "n": 5
+          },
+          "functional.js_render": {
+            "p50": 33.0,
+            "p95": 45.46,
+            "n": 5
+          },
+          "functional.delayed_render": {
+            "p50": 1865.8,
+            "p95": 1877.66,
+            "n": 5
+          },
+          "functional.js_fetch": {
+            "p50": 29.8,
+            "p95": 41.92,
+            "n": 5
+          },
+          "functional.click": {
+            "p50": 61.2,
+            "p95": 83.34,
+            "n": 5
+          },
+          "functional.form_fill": {
+            "p50": 73.2,
+            "p95": 127.58,
+            "n": 5
+          },
+          "functional.cookie_persist": {
+            "p50": 26.4,
+            "p95": 47.58,
+            "n": 5
+          },
+          "functional.spa_navigation": {
+            "p50": 60.3,
+            "p95": 85.0,
+            "n": 5
+          },
+          "functional.screenshot": {
+            "p50": 41.7,
+            "p95": 59.96,
+            "n": 5
+          },
+          "cold_start": {
+            "p50": 66.7,
+            "p95": 71.04,
+            "n": 5
+          },
+          "probe_eval": {
+            "p50": 40.4,
+            "p95": 51.18,
+            "n": 5
+          },
+          "concurrency_total": {
+            "p50": 166.5,
+            "p95": 210.9,
+            "n": 5
+          }
+        }
+      },
+      "rounds": [
+        {
+          "timing": {
+            "cold_start": 68.8,
+            "probe_eval": 40.4,
+            "concurrency_total": 166.5
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 32.8
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 19.4
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 37.3
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1865.8
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 32.0
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 61.2
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 71.9
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 26.4
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 58.2
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 19516,
+              "ms": 43.0
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 5,
+            "device_memory": 16,
+            "window_chrome": false,
+            "uad_brands": "Chromium/129|Not_A_Brand/24|Google Chrome/129",
+            "uad_platform": "Linux",
+            "getters_native": "webdriver,hardwareConcurrency,languages,plugins",
+            "tostring_native": true,
+            "screen": "1920x1080x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": false,
+            "getters_native": false,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 166.5,
+            "pages_per_s": 48.04
+          },
+          "rss_mb": 263.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Linux\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f29-474858c90c68dad307e1668a"
+            },
+            "tls": {
+              "ja3_hash": "07b92e02d187bfb4bfe9d1ef3feea2c8",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 6,
+              "warn": 0,
+              "passed": 25
+            }
+          },
+          "round": 1
+        },
+        {
+          "timing": {
+            "cold_start": 66.7,
+            "probe_eval": 39.2,
+            "concurrency_total": 166.5
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 27.5
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 18.1
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 33.0
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1860.0
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 28.1
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 61.9
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 73.0
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 25.5
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 60.3
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 19516,
+              "ms": 41.7
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 5,
+            "device_memory": 16,
+            "window_chrome": false,
+            "uad_brands": "Chromium/129|Not_A_Brand/24|Google Chrome/129",
+            "uad_platform": "Linux",
+            "getters_native": "webdriver,hardwareConcurrency,languages,plugins",
+            "tostring_native": true,
+            "screen": "1920x1080x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": false,
+            "getters_native": false,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 166.5,
+            "pages_per_s": 48.05
+          },
+          "rss_mb": 260.3,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Linux\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f32-24689e6604ed5c2a3d86166f"
+            },
+            "tls": {
+              "ja3_hash": "5c9fed0b7f4acd0d69bdc8845fdd3c6b",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 6,
+              "warn": 0,
+              "passed": 25
+            }
+          },
+          "round": 2
+        },
+        {
+          "timing": {
+            "cold_start": 66.2,
+            "probe_eval": 37.4,
+            "concurrency_total": 159.6
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 27.0
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 19.4
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 32.3
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1877.5
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 29.8
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 50.0
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 74.3
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 25.0
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 57.8
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 19516,
+              "ms": 40.1
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 5,
+            "device_memory": 16,
+            "window_chrome": false,
+            "uad_brands": "Chromium/129|Not_A_Brand/24|Google Chrome/129",
+            "uad_platform": "Linux",
+            "getters_native": "webdriver,hardwareConcurrency,languages,plugins",
+            "tostring_native": true,
+            "screen": "1920x1080x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": false,
+            "getters_native": false,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 159.6,
+            "pages_per_s": 50.11
+          },
+          "rss_mb": 260.2,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Linux\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f3a-09a0fb711c54a18a063f9f89"
+            },
+            "tls": {
+              "ja3_hash": "78203f17811d325c2f289bc5cf2f4823",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 6,
+              "warn": 0,
+              "passed": 25
+            }
+          },
+          "round": 3
+        },
+        {
+          "timing": {
+            "cold_start": 71.6,
+            "probe_eval": 53.5,
+            "concurrency_total": 222.0
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 29.1
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 21.8
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 47.5
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1859.1
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 44.4
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 88.7
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 140.9
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 52.8
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 90.8
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 19516,
+              "ms": 64.2
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 5,
+            "device_memory": 16,
+            "window_chrome": false,
+            "uad_brands": "Chromium/129|Not_A_Brand/24|Google Chrome/129",
+            "uad_platform": "Linux",
+            "getters_native": "webdriver,hardwareConcurrency,languages,plugins",
+            "tostring_native": true,
+            "screen": "1920x1080x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": false,
+            "getters_native": false,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 222.0,
+            "pages_per_s": 36.03
+          },
+          "rss_mb": 258.6,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Linux\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f43-5e91e221482227264fdf4b91"
+            },
+            "tls": {
+              "ja3_hash": "fbed9eae0b969a5481e1e10628f2ae6a",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 6,
+              "warn": 0,
+              "passed": 25
+            }
+          },
+          "round": 4
+        },
+        {
+          "timing": {
+            "cold_start": 65.9,
+            "probe_eval": 41.9,
+            "concurrency_total": 154.0
+          },
+          "functional": {
+            "static_text": {
+              "ok": true,
+              "detail": 157,
+              "ms": 26.0
+            },
+            "links": {
+              "ok": true,
+              "detail": 4,
+              "ms": 17.0
+            },
+            "js_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 30.6
+            },
+            "delayed_render": {
+              "ok": true,
+              "detail": null,
+              "ms": 1877.7
+            },
+            "js_fetch": {
+              "ok": true,
+              "detail": null,
+              "ms": 28.9
+            },
+            "click": {
+              "ok": true,
+              "detail": null,
+              "ms": 58.4
+            },
+            "form_fill": {
+              "ok": true,
+              "detail": null,
+              "ms": 73.2
+            },
+            "cookie_persist": {
+              "ok": true,
+              "detail": "returning",
+              "ms": 26.7
+            },
+            "spa_navigation": {
+              "ok": true,
+              "detail": null,
+              "ms": 61.8
+            },
+            "screenshot": {
+              "ok": true,
+              "detail": 19516,
+              "ms": 39.5
+            }
+          },
+          "isolated_context": true,
+          "probes": {
+            "webdriver": false,
+            "webdriver_own": false,
+            "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "platform": "Win32",
+            "languages": "en-US,en",
+            "plugins": 5,
+            "plugins_is_pluginarray": true,
+            "mime_types": 0,
+            "hw_concurrency": 5,
+            "device_memory": 16,
+            "window_chrome": false,
+            "uad_brands": "Chromium/129|Not_A_Brand/24|Google Chrome/129",
+            "uad_platform": "Linux",
+            "getters_native": "webdriver,hardwareConcurrency,languages,plugins",
+            "tostring_native": true,
+            "screen": "1920x1080x24",
+            "outer_zero": false,
+            "timezone": "America/Bahia",
+            "webgl": "Google Inc. (Google) | ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+            "canvas_hash": -1062554979,
+            "cdp_runtime_detected": false,
+            "notification_permission": "denied",
+            "notification_query": "prompt",
+            "iframe_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "iframe_webdriver": false,
+            "worker_ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "worker_platform": "Win32",
+            "worker_hw": 16
+          },
+          "probe_scores": {
+            "webdriver_false": true,
+            "webdriver_not_own_prop": true,
+            "ua_not_headless": true,
+            "plugins_present": true,
+            "plugins_is_pluginarray": true,
+            "languages_present": true,
+            "window_chrome": false,
+            "uad_present": true,
+            "uad_matches_ua": true,
+            "platform_matches_ua": false,
+            "getters_native": false,
+            "tostring_native": true,
+            "outer_window_nonzero": true,
+            "hw_concurrency_plausible": true,
+            "webgl_real_gpu": false,
+            "canvas_stable": true,
+            "cdp_runtime_hidden": true,
+            "notification_consistent": false,
+            "iframe_consistent": true,
+            "worker_consistent": true
+          },
+          "concurrency": {
+            "pages": 8,
+            "ok": 8,
+            "ms": 154.0,
+            "pages_per_s": 51.96
+          },
+          "rss_mb": 260.7,
+          "online": {
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+              "Accept-Encoding": "gzip, deflate, br, zstd",
+              "Host": "httpbin.org",
+              "Priority": "u=0, i",
+              "Sec-Ch-Ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+              "Sec-Ch-Ua-Mobile": "?0",
+              "Sec-Ch-Ua-Platform": "\"Linux\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Upgrade-Insecure-Requests": "1",
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+              "X-Amzn-Trace-Id": "Root=1-6adb4f4c-694192c937e6c67a76c5e1ac"
+            },
+            "tls": {
+              "ja3_hash": "0a62cfea9131787c92dace5580e7ed58",
+              "ja4": "t13d1516h2_8daaf6152771_806a8c22fdea",
+              "http2_akamai": "52d84b11737d980aef856699f885ca86",
+              "http_version": "h2",
+              "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            },
+            "sannysoft": {
+              "failed": 6,
+              "warn": 0,
+              "passed": 25
+            }
+          },
+          "round": 5
+        }
+      ],
+      "host": {
+        "node": "SMardSERVER-8700G",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "python": "3.14.7",
+        "cpus": 16
+      }
+    }
+  ]
+}
