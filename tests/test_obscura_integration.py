@@ -54,3 +54,31 @@ async def test_obscura_client_spawns_local_binary_on_demand(monkeypatch):
         await client.close()
         server.shutdown()
     assert client._proc is None
+
+
+@pytest.mark.asyncio
+async def test_native_crawl_over_obscura_follows_same_site_links():
+    from smard_crawler.common.crawl import bfs_crawl
+
+    port = _free_port()
+    proc = subprocess.Popen([OBSCURA_BIN, "serve", "--port", str(port), "--allow-private-network", "--stealth"],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=obscura_child_env(""))
+    server, base = start_fixture_server()
+    client = ObscuraClient(cdp_url=f"ws://127.0.0.1:{port}", token="", binary="")
+    client.enabled = True
+    try:
+        await _wait_port(port, 30, proc)
+
+        async def fetch(u):
+            return await client.scrape(u)
+
+        res = await bfs_crawl(fetch, f"{base}/site/index.html", limit=20, max_depth=2)
+        urls = {p["url"].replace(base, "") for p in res["pages"]}
+        assert urls == {"/site/index.html", "/site/a.html", "/site/b.html", "/site/deep.html"}
+        assert res["errors"] == 0 and res["success"]
+        assert not any("example.com" in u for u in urls)  # offsite link dropped
+    finally:
+        await client.close()
+        server.shutdown()
+        proc.terminate()
+        proc.wait(timeout=5)

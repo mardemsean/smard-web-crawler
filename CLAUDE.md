@@ -39,11 +39,15 @@ smard-web-crawler/
 Request → robots.txt check → ENGINE_ORDER (skip unavailable):
   [1] obscura       self-hosted, stealth TLS, free
   [1] crawl4ai      self-hosted Chromium, free
-  [1] firecrawl     self-hosted stack, free
+  [1] firecrawl     self-hosted stack, free  (preferred for crawl)
   [1] cloakbrowser  local stealth Chromium, free tier = 1 session
   [2] site_unblocker  Decodo, paid  ┐ PaidGuard: DECODO_MAX_RPS + DECODO_DAILY_LIMIT
   [3] web_data_api    Decodo, paid  ┘
 ```
+
+`crawl()`: Firecrawl (preferred) → native BFS over a browser engine (common/crawl.py,
+same-site, robots-gated) → Web Data API. The native fallback keeps crawl working
+without Firecrawl's service stack; Firecrawl stays first when it is up.
 
 ## Conventions
 

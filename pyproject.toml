@@ -38,7 +38,7 @@ smard-crawler-mcp = "smard_crawler.server.mcp_server:main"
 include = ["smard_crawler*"]
 
 [tool.setuptools.package-data]
-"smard_crawler.bench" = ["probes.js", "fixtures/*"]
+"smard_crawler.bench" = ["probes.js", "fixtures/*", "fixtures/site/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

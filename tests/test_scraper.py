@@ -460,6 +460,36 @@ class TestCrawl:
         scraper.web_data_api.crawl.assert_called_once()
 
     @pytest.mark.asyncio
+    async def test_crawl_native_fallback_when_firecrawl_down(self, scraper):
+        # Firecrawl not up, but a browser engine is: native crawl keeps the feature alive.
+        scraper._engine_health = {"firecrawl": False, "obscura": True}
+        scraper.obscura = AsyncMock()
+        scraper.obscura.scrape = AsyncMock(return_value={
+            "url": "https://example.com", "final_url": "https://example.com",
+            "markdown": "# root", "links": ["https://example.com/a"], "success": True,
+        })
+        scraper.engine_order = ["obscura", "crawl4ai", "firecrawl", "cloakbrowser", "site_unblocker", "web_data_api"]
+        scraper.robots = None
+        result = await scraper.crawl("https://example.com", limit=5, max_depth=1)
+        assert result["engine"] == "obscura" and result["crawl_id"] == "native"
+        assert result["success"] and result["total"] >= 1
+        scraper.firecrawl.crawl.assert_not_called()
+        scraper.web_data_api.crawl.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_crawl_native_respects_robots(self, scraper):
+        from smard_crawler.common.robots import RobotsDisallowed
+
+        scraper._engine_health = {"firecrawl": False, "obscura": True}
+        scraper.obscura = AsyncMock()
+        scraper.engine_order = ["obscura"]
+        scraper.robots = MagicMock()
+        scraper.robots.allowed = AsyncMock(return_value=False)
+        with pytest.raises(RobotsDisallowed):
+            await scraper.crawl("https://example.com/private")
+        scraper.obscura.scrape.assert_not_called()
+
+    @pytest.mark.asyncio
     async def test_crawl_no_engine_raises(self, scraper):
         scraper._engine_health = {"firecrawl": False}
         scraper.web_data_api.enabled = False

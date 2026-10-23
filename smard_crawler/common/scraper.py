@@ -19,6 +19,7 @@ import aiofiles
 
 from .budget import BudgetExceeded, PaidGuard
 from .config import DEFAULT_ENGINE_ORDER, config
+from .crawl import bfs_crawl
 from .robots import RobotsChecker, RobotsDisallowed
 from ..browsers.client import CloakBrowserClient, ObscuraClient
 from ..crawl4ai.client import Crawl4AIClient
@@ -34,6 +35,9 @@ FALLBACK_ORDER = DEFAULT_ENGINE_ORDER.split(",")
 
 SELF_HOSTED_ENGINES = {"obscura", "crawl4ai", "firecrawl", "cloakbrowser"}
 PAID_ENGINES = {"site_unblocker", "web_data_api"}
+
+# Engines whose scrape result carries a "links" list, usable by the native crawler.
+_LINK_YIELDING_ENGINES = ("obscura", "cloakbrowser")
 
 LIVENESS_INTERVAL = 300  # seconds between automatic health rechecks
 
@@ -316,17 +320,47 @@ class UnifiedScraper:
         limit: int = 50,
         max_depth: int = 2,
     ) -> dict:
-        """Multi-page crawl with fallback: Firecrawl self-hosted → Web Data API /crawl."""
+        """Multi-page crawl: Firecrawl self-hosted → native browser crawl → Web Data API /crawl.
+
+        Firecrawl stays preferred. The native fallback reuses the browser engines
+        already in the chain, so crawl still works without Firecrawl's service stack.
+        """
+        if not self._engine_health:
+            await self.check_engines()
         try:
-            if self._engine_health.get("firecrawl", True):
+            if self._engine_health.get("firecrawl"):
                 return await self.firecrawl.crawl(url, limit=limit, max_depth=max_depth)
         except Exception as e:
-            logger.warning(f"[firecrawl] crawl failed: {e}")
+            logger.warning(f"[firecrawl] crawl failed, falling back to native crawl: {e}")
+
+        browser_engine = self._first_browser_engine()
+        if browser_engine is not None:
+            robots = getattr(self, "robots", None)
+            if robots is not None and not await robots.allowed(url):
+                raise RobotsDisallowed(f"robots.txt disallows {url}")
+
+            async def _fetch(page_url: str) -> dict:
+                return await self._scrape_with(browser_engine, page_url, save=False)
+
+            logger.info(f"[crawl] native crawl via {browser_engine}")
+            result = await bfs_crawl(_fetch, url, limit=limit, max_depth=max_depth)
+            result["engine"] = browser_engine
+            return result
 
         if self.web_data_api.enabled:
             return await self.web_data_api.crawl(url, limit=limit, max_depth=max_depth)
 
-        raise RuntimeError("No crawl engine available")
+        raise RuntimeError(
+            "No crawl engine available. Start a browser engine (obscura/crawl4ai), "
+            "run Firecrawl (scripts/firecrawl-up.sh), or set DECODO_API_KEY"
+        )
+
+    def _first_browser_engine(self) -> Optional[str]:
+        """First healthy browser engine in the configured order that yields links for crawling."""
+        for eng in getattr(self, "engine_order", FALLBACK_ORDER):
+            if eng in _LINK_YIELDING_ENGINES and self._engine_health.get(eng):
+                return eng
+        return None
 
     async def map_site(self, url: str) -> dict:
         """Map site URLs via Web Data API /map."""
