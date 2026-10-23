@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install package
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: pip install ".[all,dev]"
+      - name: Unit tests
+        run: pytest -q --cov=smard_crawler --cov-report=term
+
+  integration:
+    runs-on: ubuntu-24.04
+    env:
+      OBSCURA_VERSION: v0.2.5
+      OBSCURA_SHA256: d9175cf7573d0243fc303a6f1a3b68affc757af0b5549cacb018e9670988316c
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package and Chromium
+        run: |
+          pip install ".[all,dev]"
+          python -m playwright install --with-deps chromium
+      - name: Download Obscura stealth release
+        run: |
+          curl -fsSLo obscura.tgz "https://github.com/h4ckf0r0day/obscura/releases/download/${OBSCURA_VERSION}/obscura-x86_64-linux-stealth.tar.gz"
+          echo "${OBSCURA_SHA256}  obscura.tgz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/obscura" && tar xzf obscura.tgz -C "$RUNNER_TEMP/obscura"
+          echo "OBSCURA_BIN=$RUNNER_TEMP/obscura/obscura" >> "$GITHUB_ENV"
+      - name: Integration tests (real Obscura + Chromium)
+        run: pytest -q tests/test_obscura_integration.py tests/test_stealth_browser.py
+      - name: Engine battery smoke run
+        run: smard-crawler bench --engines chromium,obscura-stealth --rounds 1 --out bench-out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: engine-bench
+          path: bench-out/
+
+  compose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose file
+        env:
+          OBSCURA_CDP_TOKEN: ci
+          CRAWL4AI_API_TOKEN: ci
+          SMARD_API_TOKEN: ci
+        run: docker compose config --quiet
+      - name: Shell syntax
+        run: bash -n scripts/install.sh scripts/firecrawl-up.sh

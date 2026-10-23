@@ -1,61 +1,109 @@
-# smard-web-crawler — *advanced local self-hosted web search and scrape engine*
+# smard-web-crawler — *self-hosted web search and scrape engine*
 
-Self-hosted web scraping infrastructure using Crawl4AI and Firecrawl for
-HTML-to-Markdown conversion with anti-bot bypass capabilities. Built for
-autonomous agents that need high-quality, clean data from the web without
-per-request API costs or rate limits.
+Turns web pages into clean Markdown through a chain of self-hosted engines, falling
+back to managed Decodo services only when the free engines fail. Ships as a Python
+package with a CLI, an HTTP API, an MCP server and a Claude Code plugin.
 
-## Why this exists
+## Engines and fallback order
 
-Paid scraping APIs charge per request and impose rate limits. Their open-source
-counterparts — Crawl4AI and Firecrawl self-hosted — use identical algorithms for
-HTML-to-Markdown conversion, the same Playwright headless rendering, and the same
-semantic noise-removal strategies. The only real advantage of a paid API is
-managed infrastructure: proxy rotation and anti-bot bypass.
+| # | Engine | Kind | Cost | Notes |
+|---|---|---|---|---|
+| 1 | **Obscura** (stealth build) | Rust/V8 headless browser over CDP | free | Chrome-identical TLS (JA3/JA4), ~110 MB RAM, no WebGL |
+| 2 | **Crawl4AI** 0.9.5 | Chromium server (Docker) | free | `enable_stealth`, content filters |
+| 3 | **Firecrawl** v2.11 | self-hosted stack (Docker) | free | also powers `crawl` |
+| 4 | **CloakBrowser** 0.6.3 | source-patched stealth Chromium | free tier, 1 session | hardest targets; needs a license |
+| 5 | Decodo Site Unblocker | managed proxy | paid | rate-limited + daily cap |
+| 6 | Decodo Web Data API | managed REST | paid | rate-limited + daily cap, `map` |
 
-This project closes that gap. It provides the infrastructure layer — proxy
-integration, stealth mode, human simulation, and a unified scraper interface —
-so that self-hosted engines deliver the same quality at zero per-request cost.
+The order is configurable (`ENGINE_ORDER`). Engines that are down or unconfigured are
+skipped, each engine retries with variant parameters before the chain escalates,
+and failed engines are rechecked during long batches. Every scrape checks
+`robots.txt` first (RFC 9309). The API and MCP refuse private and internal
+addresses (SSRF guard).
 
-## What it actually does
+Measured on the same host and tests (5 rounds each, `smard-crawler bench`):
 
-- **Unified scraper** that auto-routes to the best available engine (Crawl4AI or
-  Firecrawl) with health detection and fallback.
-- **Docker Compose** stack: Firecrawl API + Redis + Crawl4AI server, one command.
-- **Anti-bot bypass**: residential proxy integration, playwright-stealth patches,
-  realistic HTTP headers, human behavior simulation.
-- **Batch scraping** with concurrency control, per-domain rate limiting, and
-  automatic retry with exponential backoff.
-- **Markdown output** with YAML frontmatter metadata (source URL, engine,
-  timestamp, extraction stats).
+| Engine | Functional | Stealth probes | RSS | sannysoft failures |
+|---|---|---|---|---|
+| Chromium headless | 100% | 70% | 413 MB | 12 |
+| Chromium + `stealth.py` | 100% | 80% | 418 MB | — |
+| Obscura `--stealth` | 100% | 90% | 107 MB | 3 |
 
-## Quick start
+The rationale is in [docs/decisions/0001-obscura-engine.md](docs/decisions/0001-obscura-engine.md).
+
+## Install (any machine, private repo)
+
+You need Python 3.12+ and git access to this repository. Docker is optional.
 
 ```bash
-cp .env.example .env    # configure proxy credentials
-docker compose up -d    # start engines
-python3 scripts/demo.py https://example.com
+git clone https://github.com/mardemsean/smard-web-crawler && cd smard-web-crawler
+scripts/install.sh                     # Linux / macOS
+#   --with-cloak       also install CloakBrowser (then: cloakbrowser login)
+#   --with-docker      start Obscura + Crawl4AI + API containers
+#   --with-firecrawl   start the Firecrawl self-hosted stack
+#   --with-chromium    Playwright Chromium (benchmark baseline)
 ```
 
-## Honest about state
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\install.ps1 -WithCloak   # Windows
+```
 
-This repository was constituted from a working implementation session. The
-technical code is operational. The methodological documentation follows the
-smard-agent-flow baseline; documents are created when their triggers occur, not
-preemptively.
+The installer creates `~/.smard-crawler/` with a venv, the checksum-verified Obscura
+stealth binary and a `.env` with generated tokens, and puts `smard-crawler` and
+`smard-crawler-mcp` on PATH. Add your proxy and Decodo credentials to
+`~/.smard-crawler/.env`.
+
+### Claude Code plugin
+
+```
+/plugin marketplace add mardemsean/smard-web-crawler
+/plugin install smard-crawler@smard-labs
+```
+
+Private repositories authenticate with your existing git credentials (SSH key or
+`gh auth setup-git`). The plugin starts `smard-crawler-mcp`, so run the installer
+first. Without the plugin, register the server directly:
+`claude mcp add --scope user smard-crawler -- smard-crawler-mcp`.
+
+## Use
+
+```bash
+smard-crawler health                               # engines, order, paid budget
+smard-crawler scrape https://example.com           # Markdown to stdout (+ saved to OUTPUT_DIR)
+smard-crawler batch urls.txt --concurrency 8
+smard-crawler crawl https://docs.example.com --limit 50
+smard-crawler serve                                # HTTP API on 127.0.0.1:8787
+smard-crawler bench --engines obscura-stealth,cloakbrowser,chromium --rounds 5 --online
+```
+
+HTTP API (Bearer `SMARD_API_TOKEN`): `GET /health`, `POST /scrape`, `/batch`,
+`/crawl`, `/map`. MCP tools: `scrape`, `scrape_batch`, `crawl`, `map_site`,
+`engines_health`.
+
+Docker stack: `docker compose --env-file ~/.smard-crawler/.env up -d`. All ports
+bind to loopback, and the containers refuse to start without their tokens.
+
+## Development
+
+```bash
+pip install -e ".[all,dev]"
+pytest -q                                          # unit tests
+OBSCURA_BIN=~/.smard-crawler/bin/obscura pytest -q # + real-engine integration tests
+```
 
 ## Structure
 
-- [AGENTS.md](AGENTS.md) — operational routing for agents working in this repo.
-- [METHODOLOGY.md](METHODOLOGY.md) — intent and articulation of the cycle.
-- [RULES.md](RULES.md) — human–agent working rules.
-- [INDEX.md](INDEX.md) — canonical index of responsibilities.
-- [adrZERO.md](adrZERO.md) — foundational decision: self-hosted over paid APIs.
+Governance: [AGENTS.md](AGENTS.md), [METHODOLOGY.md](METHODOLOGY.md),
+[RULES.md](RULES.md), [INDEX.md](INDEX.md), [adrZERO.md](adrZERO.md).
 
-Technical:
-
-- `src/` — Python source: unified scraper, Crawl4AI client, Firecrawl client,
-  stealth utilities.
-- `docker-compose.yml` — container orchestration.
-- `scripts/` — setup and demo scripts.
-- `.env.example` — environment variable template.
+| Path | Content |
+|---|---|
+| `smard_crawler/common/` | config, fallback scraper, robots, budget, URL guard, Markdown, stealth |
+| `smard_crawler/browsers/` | Obscura and CloakBrowser engines (Playwright/CDP) |
+| `smard_crawler/crawl4ai/`, `firecrawl/`, `decodo/` | HTTP engine clients |
+| `smard_crawler/server/` | HTTP API, MCP server, shared service layer |
+| `smard_crawler/bench/` | engine comparison battery and fixtures |
+| `plugins/smard-crawler/`, `.claude-plugin/` | Claude Code plugin and marketplace |
+| `docker/`, `Dockerfile`, `docker-compose.yml` | container stack |
+| `scripts/` | installers, Firecrawl launcher, cloud setup, demo |
+| `RESEARCH/` | Obscura analysis and the PONTE bridge document |

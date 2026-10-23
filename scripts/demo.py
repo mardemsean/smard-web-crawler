@@ -16,12 +16,10 @@ async def main():
 
     scraper = UnifiedScraper()
 
-    print(f"Checking engine availability...")
+    print("Checking engine availability...")
     health = await scraper.check_engines()
-    print(f"  [L1] Crawl4AI:        {'UP' if health['crawl4ai'] else 'DOWN'}")
-    print(f"  [L1] Firecrawl:       {'UP' if health['firecrawl'] else 'DOWN'}")
-    print(f"  [L2] Site Unblocker:  {'UP' if health['site_unblocker'] else 'DOWN/NOT CONFIGURED'}")
-    print(f"  [L3] Web Data API:    {'UP' if health['web_data_api'] else 'DOWN/NOT CONFIGURED'}")
+    for name in scraper.engine_order:
+        print(f"  {name:<15} {'UP' if health.get(name) else 'DOWN/NOT CONFIGURED'}")
 
     available = [k for k, v in health.items() if v]
     if not available:
@@ -36,6 +34,7 @@ async def main():
     else:
         print(f"\nScraping {url} (engine={engine})...")
         result = await scraper.scrape(url, engine=engine)
+    await scraper.close()
 
     print(f"\n--- Result ---")
     print(f"URL: {result.get('url')}")

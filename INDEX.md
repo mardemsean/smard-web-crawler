@@ -16,15 +16,29 @@ This index maps responsibilities; it does not prove reading or approval.
 
 | Source | Responsibility |
 | --- | --- |
-| [docker-compose.yml](docker-compose.yml) | Container orchestration (Firecrawl + Crawl4AI + Redis) |
+| [pyproject.toml](pyproject.toml) | Package metadata, extras and console scripts |
+| [docker-compose.yml](docker-compose.yml) | Container stack (Obscura + Crawl4AI + API) |
 | [.env.example](.env.example) | Environment variable template |
-| [src/common/config.py](src/common/config.py) | Centralized configuration from env vars |
-| [src/common/scraper.py](src/common/scraper.py) | Unified scraper interface with auto-routing |
-| [src/common/stealth.py](src/common/stealth.py) | Anti-bot stealth utilities |
-| [src/crawl4ai/client.py](src/crawl4ai/client.py) | Crawl4AI server and direct library client |
-| [src/firecrawl/client.py](src/firecrawl/client.py) | Firecrawl self-hosted API client |
-| [scripts/setup.sh](scripts/setup.sh) | Environment setup script |
-| [scripts/demo.py](scripts/demo.py) | Demo and verification script |
+| [smard_crawler/common/config.py](smard_crawler/common/config.py) | Configuration from env vars and .env files |
+| [smard_crawler/common/scraper.py](smard_crawler/common/scraper.py) | Fallback chain, intra-engine retry, liveness |
+| [smard_crawler/common/robots.py](smard_crawler/common/robots.py) | robots.txt compliance |
+| [smard_crawler/common/budget.py](smard_crawler/common/budget.py) | Rate limit and daily budget for paid engines |
+| [smard_crawler/common/urlguard.py](smard_crawler/common/urlguard.py) | SSRF guard at the API/MCP boundary |
+| [smard_crawler/common/stealth.py](smard_crawler/common/stealth.py) | Browser profiles, GREASE, navigator script |
+| [smard_crawler/browsers/client.py](smard_crawler/browsers/client.py) | Obscura and CloakBrowser engines |
+| [smard_crawler/crawl4ai/client.py](smard_crawler/crawl4ai/client.py) | Crawl4AI server client |
+| [smard_crawler/firecrawl/client.py](smard_crawler/firecrawl/client.py) | Firecrawl self-hosted client |
+| [smard_crawler/decodo/](smard_crawler/decodo/) | Decodo Site Unblocker and Web Data API clients |
+| [smard_crawler/server/](smard_crawler/server/) | HTTP API and MCP server |
+| [smard_crawler/bench/](smard_crawler/bench/) | Engine comparison battery |
+| [smard_crawler/cli.py](smard_crawler/cli.py) | `smard-crawler` command line |
+| [plugins/smard-crawler/](plugins/smard-crawler/) | Claude Code plugin (MCP + skills) |
+| [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) | Plugin marketplace |
+| [scripts/install.sh](scripts/install.sh), [scripts/install.ps1](scripts/install.ps1) | Installers |
+| [scripts/firecrawl-up.sh](scripts/firecrawl-up.sh) | Firecrawl self-hosted stack at a pinned release |
+| [scripts/setup.sh](scripts/setup.sh) | Cloud agent environment setup |
+| [docs/decisions/0001-obscura-engine.md](docs/decisions/0001-obscura-engine.md) | Decision D1: Obscura as engine |
+| [DEPLOY-CHECKLIST.md](DEPLOY-CHECKLIST.md) | Deployment checklist |
 
 ## Available templates (not filled-in documents)
 
