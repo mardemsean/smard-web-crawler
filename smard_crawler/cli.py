@@ -136,6 +136,10 @@ def main(argv: list[str] | None = None) -> int:
         bench_main(argv[1:])
         return 0
     args = build_parser().parse_args(argv)
+    # Windows consoles default to a legacy code page (cp1252); scraped Markdown and JSON-RPC are UTF-8.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     # stdout carries the MCP protocol, so logs always go to stderr.
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.WARNING, stream=sys.stderr,
                         format="%(levelname)s %(name)s: %(message)s")
