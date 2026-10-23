@@ -235,7 +235,9 @@ class UnifiedScraper:
                 # Decodo level must not count as a paid call.
                 raise RuntimeError(f"[{engine}] not configured (set SITE_UNBLOCKER_URL / DECODO_API_KEY)")
             if guard is not None:
-                await guard.acquire()
+                # Check the cap and rate-limit now; charge only after the engine responds,
+                # so a connection that never reaches Decodo is not billed against the budget.
+                await guard.before()
 
         start = time.monotonic()
 
@@ -255,6 +257,9 @@ class UnifiedScraper:
             )
         else:
             raise ValueError(f"Unknown engine: {engine}")
+
+        if engine in PAID_ENGINES and guard is not None:
+            await guard.charge()  # the engine responded; count it now (an earlier failure would have raised)
 
         elapsed = time.monotonic() - start
         result["engine"] = engine

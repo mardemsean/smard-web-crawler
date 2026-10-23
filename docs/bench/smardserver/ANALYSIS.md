@@ -48,7 +48,9 @@ fingerprint would stand.
 - `SITE_UNBLOCKER_URL` pointing to an unreachable host, `ENGINE_ORDER=site_unblocker,cloakbrowser`:
   two `ConnectError` attempts (primary + `js_render: False` variant), then CloakBrowser answered.
 - Budget: those two failed attempts were counted (`used_today` 2 → 4) although no request
-  reached Decodo. Design question for the operator: charge on success/response only.
+  reached Decodo. **Fixed:** `PaidGuard` now checks the daily cap and rate-limits *before* a
+  paid call but charges the budget only *after* the engine responds, so a connection that never
+  reaches Decodo is no longer billed. Covered by tests in `tests/test_engines_new.py`.
 
 ## Bugs fixed during this validation
 

@@ -61,6 +61,14 @@ class DailyBudget:
     def used(self) -> int:
         return self._load()["count"]
 
+    async def check(self, n: int = 1) -> int:
+        """Raise if spending n more would exceed the cap, without incrementing."""
+        async with self._lock:
+            count = self._load()["count"]
+            if self.limit > 0 and count + n > self.limit:
+                raise BudgetExceeded(f"daily paid-request budget exhausted ({count}/{self.limit})")
+            return count
+
     async def consume(self, n: int = 1) -> int:
         async with self._lock:
             state = self._load()
@@ -76,6 +84,17 @@ class PaidGuard:
         self.limiter = RateLimiter(max_rps)
         self.budget = DailyBudget(daily_limit, state_file)
 
+    async def before(self) -> None:
+        """Gate a paid request: refuse if the daily cap is already reached, then rate-limit.
+        Does not count the request — only a response does, via charge()."""
+        await self.budget.check()
+        await self.limiter.acquire()
+
+    async def charge(self) -> int:
+        """Count one paid request that actually reached the engine and returned."""
+        return await self.budget.consume()
+
     async def acquire(self) -> None:
+        """Count-then-limit in one step. Kept for callers that charge up front."""
         await self.budget.consume()
         await self.limiter.acquire()

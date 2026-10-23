@@ -116,6 +116,34 @@ async def test_paid_guard(tmp_path):
         await g.acquire()
 
 
+@pytest.mark.asyncio
+async def test_paid_guard_before_does_not_charge_only_charge_does(tmp_path):
+    g = PaidGuard(0, 2, tmp_path / "b.json")
+    # before() may run many times (failed attempts) without counting
+    await g.before()
+    await g.before()
+    await g.before()
+    assert g.budget.used() == 0
+    assert await g.charge() == 1  # only a response counts
+    await g.before()
+    assert await g.charge() == 2
+    # cap reached: before() refuses the next request before the engine is called
+    with pytest.raises(BudgetExceeded):
+        await g.before()
+    assert g.budget.used() == 2
+
+
+@pytest.mark.asyncio
+async def test_daily_budget_check_does_not_increment(tmp_path):
+    b = DailyBudget(1, tmp_path / "b.json")
+    assert await b.check() == 0
+    assert await b.check() == 0
+    assert b.used() == 0
+    await b.consume()
+    with pytest.raises(BudgetExceeded):
+        await b.check()
+
+
 # --- robots ---
 
 def _robots_transport(status: int, body: str = ""):
@@ -321,6 +349,26 @@ async def test_explicit_unconfigured_paid_engine_refuses_without_charging_budget
     with pytest.raises(RuntimeError, match="not configured"):
         await s.scrape("https://example.com", engine="site_unblocker", save=False)
     su.scrape.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_paid_engine_connection_failure_does_not_charge_budget(tmp_path):
+    # The SMardSERVER bench found failed attempts counting against the budget. A request that
+    # raises before the engine responds (e.g. a bad SITE_UNBLOCKER_URL) must not be billed.
+    su = _ok_client("# su")
+    su.enabled = True
+    su.scrape = AsyncMock(side_effect=ConnectionError("unreachable"))
+    cloak = _ok_client("# cloak")
+    s = _scraper(site_unblocker=su, cloakbrowser=cloak)
+    s.engine_order = ["site_unblocker", "cloakbrowser"]
+    s.paid_guard = PaidGuard(0, 10, tmp_path / "b.json")
+    with patch("smard_crawler.common.scraper.config") as cfg:
+        cfg.site_unblocker.enabled = True
+        cfg.decodo_api.enabled = False
+        # site_unblocker primary + its intra-engine variant both raise, then cloakbrowser serves.
+        result = await s.scrape("https://example.com", save=False)
+    assert result["engine"] == "cloakbrowser"
+    assert s.paid_guard.budget.used() == 0  # nothing reached Decodo, nothing billed
     assert s.paid_guard.budget.used() == 0
 
 
