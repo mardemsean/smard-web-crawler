@@ -74,3 +74,47 @@ jobs:
         run: docker compose config --quiet
       - name: Shell syntax
         run: bash -n scripts/install.sh scripts/firecrawl-up.sh
+
+  stack:
+    runs-on: ubuntu-24.04
+    needs: compose
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate tokens
+        run: |
+          for k in OBSCURA_CDP_TOKEN CRAWL4AI_API_TOKEN SMARD_API_TOKEN; do
+            echo "$k=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          done
+      - name: Build images
+        run: docker compose build
+      - name: Start obscura + crawl4ai + api
+        run: docker compose up -d
+      - name: Wait for engines
+        run: |
+          for i in $(seq 1 60); do
+            out=$(curl -sf -H "Authorization: Bearer $SMARD_API_TOKEN" http://127.0.0.1:8787/health || true)
+            if echo "$out" | python3 -c 'import sys,json; e=json.load(sys.stdin)["engines"]; sys.exit(not (e["obscura"] and e["crawl4ai"]))' 2>/dev/null; then
+              echo "$out"; exit 0
+            fi
+            sleep 5
+          done
+          echo "engines not healthy: $out"; exit 1
+      - name: API rejects missing token
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8787/health)" = 401
+      - name: Scrape through each engine
+        run: |
+          for engine in obscura crawl4ai; do
+            curl -sf -H "Authorization: Bearer $SMARD_API_TOKEN" -H 'Content-Type: application/json' \
+              -d "{\"url\":\"https://example.com\",\"engine\":\"$engine\"}" http://127.0.0.1:8787/scrape > "out-$engine.json"
+            python3 - "$engine" <<'PY'
+          import json, sys
+          engine = sys.argv[1]
+          r = json.load(open(f"out-{engine}.json"))
+          assert r["success"] and r["engine"] == engine, r
+          assert "documentation" in r["markdown"], r["markdown"][:300]
+          print(engine, "ok", len(r["markdown"]), "chars")
+          PY
+          done
+      - name: Container logs
+        if: failure()
+        run: docker compose logs --tail 200
