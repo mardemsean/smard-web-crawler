@@ -224,8 +224,14 @@ class UnifiedScraper:
         proxy_pool: str = "standard",
     ) -> dict:
         guard = getattr(self, "paid_guard", None)
-        if engine in PAID_ENGINES and guard is not None:
-            await guard.acquire()
+        if engine in PAID_ENGINES:
+            client = getattr(self, engine, None)
+            if client is not None and not getattr(client, "enabled", True):
+                # Refuse before touching the paid budget: an explicit --engine on an unconfigured
+                # Decodo level must not count as a paid call.
+                raise RuntimeError(f"[{engine}] not configured (set SITE_UNBLOCKER_URL / DECODO_API_KEY)")
+            if guard is not None:
+                await guard.acquire()
 
         start = time.monotonic()
 

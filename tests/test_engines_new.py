@@ -313,6 +313,18 @@ async def test_paid_engine_guarded_and_skipped_when_budget_exhausted(tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_explicit_unconfigured_paid_engine_refuses_without_charging_budget(tmp_path):
+    su = _ok_client("# su")
+    su.enabled = False  # SITE_UNBLOCKER_URL empty
+    s = _scraper(site_unblocker=su)
+    s.paid_guard = PaidGuard(0, 5, tmp_path / "b.json")
+    with pytest.raises(RuntimeError, match="not configured"):
+        await s.scrape("https://example.com", engine="site_unblocker", save=False)
+    su.scrape.assert_not_awaited()
+    assert s.paid_guard.budget.used() == 0
+
+
+@pytest.mark.asyncio
 async def test_check_engines_covers_all_and_tolerates_exceptions():
     bad = AsyncMock()
     bad.health = AsyncMock(side_effect=RuntimeError("boom"))

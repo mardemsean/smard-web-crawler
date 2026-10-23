@@ -217,6 +217,7 @@ class TestScrapeWithEngine:
 
     @pytest.mark.asyncio
     async def test_scrape_with_web_data_api(self, scraper):
+        scraper.web_data_api.enabled = True  # the fixture is unconfigured; explicit use of a disabled paid engine is refused
         result = await scraper._scrape_with("web_data_api", "https://example.com", save=False)
         assert result["engine"] == "web_data_api"
 
