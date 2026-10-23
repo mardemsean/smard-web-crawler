@@ -388,3 +388,15 @@ def test_load_env_files_precedence(tmp_path, monkeypatch):
     assert os.environ["SMARD_TEST_KEY"] == "explicit" and os.environ["SMARD_TEST_OTHER"] == "cwd"
     monkeypatch.delenv("SMARD_TEST_KEY")
     monkeypatch.delenv("SMARD_TEST_OTHER")
+
+
+def test_obscura_child_env_matches_client_token(monkeypatch):
+    from smard_crawler.browsers.client import obscura_child_env
+
+    # `obscura serve` enforces Bearer auth when OBSCURA_CDP_TOKEN is in its environment, so a spawned
+    # child must see exactly the token the client sends (installed .env is exported to os.environ).
+    monkeypatch.setenv("OBSCURA_CDP_TOKEN", "inherited-from-dotenv")
+    assert "OBSCURA_CDP_TOKEN" not in obscura_child_env("")
+    assert obscura_child_env("client-token")["OBSCURA_CDP_TOKEN"] == "client-token"
+    monkeypatch.delenv("OBSCURA_CDP_TOKEN")
+    assert "OBSCURA_CDP_TOKEN" not in obscura_child_env("")

@@ -7,7 +7,7 @@ import pytest
 
 from smard_crawler.bench.engines import _free_port, _wait_port
 from smard_crawler.bench.run import start_fixture_server
-from smard_crawler.browsers.client import ObscuraClient
+from smard_crawler.browsers.client import ObscuraClient, obscura_child_env
 
 OBSCURA_BIN = os.getenv("OBSCURA_BIN")
 pytestmark = pytest.mark.skipif(not OBSCURA_BIN or not os.path.exists(OBSCURA_BIN or ""), reason="OBSCURA_BIN not set")
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.skipif(not OBSCURA_BIN or not os.path.exists(OBSCURA_BI
 async def test_obscura_client_scrapes_rendered_page():
     port = _free_port()
     proc = subprocess.Popen([OBSCURA_BIN, "serve", "--port", str(port), "--allow-private-network", "--stealth"],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=obscura_child_env(""))
     server, base = start_fixture_server()
     client = ObscuraClient(cdp_url=f"ws://127.0.0.1:{port}", token="")
     client.enabled = True

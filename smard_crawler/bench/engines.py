@@ -14,6 +14,8 @@ from typing import Any, AsyncIterator
 
 from playwright.async_api import Browser, Playwright
 
+from smard_crawler.browsers.client import obscura_child_env
+
 
 @dataclass
 class EngineHandle:
@@ -88,7 +90,7 @@ async def obscura(pw: Playwright, binary: str | None = None, cdp_url: str | None
             log_path = Path(os.getenv("BENCH_LOG_DIR", "data/bench")) / f"obscura-{port}.log"
             log_path.parent.mkdir(parents=True, exist_ok=True)
             log_file = log_path.open("wb")
-            proc = subprocess.Popen(args, stdout=log_file, stderr=subprocess.STDOUT)
+            proc = subprocess.Popen(args, stdout=log_file, stderr=subprocess.STDOUT, env=obscura_child_env(""))
             await _wait_port(port, 30, proc)
             cdp_url = f"ws://127.0.0.1:{port}"
         browser = await pw.chromium.connect_over_cdp(cdp_url, timeout=30_000)

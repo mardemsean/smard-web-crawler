@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import logging
 import subprocess
 import time
@@ -95,6 +96,21 @@ def _http_base(cdp_url: str) -> str:
     return urlunsplit((scheme, parts.netloc, "", "", ""))
 
 
+def obscura_child_env(token: str) -> dict[str, str]:
+    """Environment for a spawned `obscura serve`, coherent with the token the client will send.
+
+    `obscura serve` enforces Bearer auth whenever OBSCURA_CDP_TOKEN is present in its environment.
+    load_env_files() exports the installed .env into os.environ, so an inherited environment can
+    make the child require a token the client never sends (401 on /json/version).
+    """
+    env = dict(os.environ)
+    if token:
+        env["OBSCURA_CDP_TOKEN"] = token
+    else:
+        env.pop("OBSCURA_CDP_TOKEN", None)
+    return env
+
+
 class ObscuraClient(BrowserEngineClient):
     """Connects to an `obscura serve --stealth` CDP endpoint.
 
@@ -142,7 +158,7 @@ class ObscuraClient(BrowserEngineClient):
                     args += ["--proxy", config.proxy.url]
                 logger.info(f"[obscura] starting local binary on port {port}")
                 self._proc = await asyncio.create_subprocess_exec(
-                    *args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                    *args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=obscura_child_env(self.token),
                 )
             for _ in range(150):
                 if self._proc.returncode is not None:
